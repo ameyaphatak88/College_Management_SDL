@@ -11,6 +11,7 @@ public class Student {
 	private String division;
 	private String studentPass;
 	public String tmsg = " ";
+	public String noticeT;
 	Vector subjects = new Vector();
 	Hashtable<String, Integer> marks_distribution = new Hashtable<String, Integer>();
 	
@@ -32,6 +33,10 @@ public class Student {
 	
 	public void dispTeachMess() {
 		System.out.println("Treacher's message : " + this.teachers_message);
+	}
+	
+	public void showNoticeT() {
+		System.out.println("Notice from teacher : " + this.noticeT);
 	}
 	
 	public void input_data() {
@@ -128,3 +133,4 @@ public class Student {
 	}
 
 }
+

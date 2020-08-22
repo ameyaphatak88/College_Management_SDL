@@ -8,6 +8,7 @@ public class Teacher {
 	private String teacherPass;
 	private String ccof;
 	public String message_student;
+	public String notify_students;
 	Hashtable<String, String> class_subjects_dist = new Hashtable<String, String>();
 		
 	public void input_data() {
@@ -48,3 +49,4 @@ public class Teacher {
 	
 
 }
+

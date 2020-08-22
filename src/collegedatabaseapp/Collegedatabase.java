@@ -42,6 +42,7 @@ public class Collegedatabase {
 						System.out.println("1.View all the subjects ");
 						System.out.println("2.View the marks distribution ");
 						System.out.println("3. Check if any message from teacher");
+						System.out.println("4. Check if any notice from teacher");
 						do {
 							int inner_opt;
 							inner_opt = sc.nextInt();
@@ -158,6 +159,16 @@ public class Collegedatabase {
 								}
 							}
 							
+							if(inner_opt == 4) {
+								String notice;
+								System.out.println("Enter the notice you want to convey to all students :");
+								notice = sc.nextLine();
+								notice = sc.nextLine();
+								for(int j = 0; j < students.size(); j++) {
+									students.get(j).noticeT = notice;
+								}
+							}
+							
 							inner_flag = 1;
 							
 						}while(inner_flag == 0);
@@ -192,3 +203,4 @@ public class Collegedatabase {
 		teachers = teacher_operations(teachers,students);
 	}
 }
+
