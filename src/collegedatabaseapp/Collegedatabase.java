@@ -21,62 +21,72 @@ public class Collegedatabase {
 			}
 			
 			if(opt == 2) {
-				//String id = "ramram";
-				System.out.println("Enter student id");
-				String id = sc.nextLine();
-				id = sc.nextLine();
-				
-				System.out.println("Enter password");
-				String passw = sc.nextLine();
-				
-				int flag = 0;
-				for(int i = 0; i < students.size(); i++) {
-					System.out.println(students.get(i).getId());
-					if(id.equals(students.get(i).getId()) && passw.equals(students.get(i).getPass())) {
-						flag = 1;
-						String fullname = students.get(i).getName();
-						System.out.println("Hello " + fullname);
-						
-						int inner_flag = 0;
-						
-						System.out.println("1.View all the subjects ");
-						System.out.println("2.View the marks distribution ");
-						System.out.println("3. Check if any message from teacher");
-						System.out.println("4. Check if any notice from teacher");
-						do {
-							int inner_opt;
-							inner_opt = sc.nextInt();
+					char exit_acc;
+					//String id = "ramram";
+					System.out.println("Enter student id");
+					String id = sc.nextLine();
+					id = sc.nextLine();
+					
+					System.out.println("Enter password");
+					String passw = sc.nextLine();
+					
+					int flag = 0;
+					for(int i = 0; i < students.size(); i++) {
+						System.out.println(students.get(i).getId());
+						if(id.equals(students.get(i).getId()) && passw.equals(students.get(i).getPass())) {
+							flag = 1;
+							String fullname = students.get(i).getName();
+							System.out.println("Hello " + fullname);
 							
-							if(inner_opt == 1) {
-								students.get(i).assignSubjects();
-								students.get(i).display_subjects();
-								inner_flag = 1;
-							}
+							char inner_flag;
 							
-							if(inner_opt == 2) {
-								students.get(i).assignMarksDistribution();
-								students.get(i).displayMarksDistribution();
-								inner_flag = 1;
-							}
 							
-							if(inner_opt == 3) {
-								System.out.println("Message from class coordinator of the class : " + students.get(i).tmsg);
-							}
+							do {
+								System.out.println("1.View all the subjects ");
+								System.out.println("2.View the marks distribution ");
+								System.out.println("3. Check if any message from teacher");
+								System.out.println("4. Check if any notice from teacher");
+								
+								int inner_opt;
+								inner_opt = sc.nextInt();
+								
+								if(inner_opt == 1) {
+									students.get(i).assignSubjects();
+									students.get(i).display_subjects();
+									//inner_flag = 1;
+								}
+								
+								if(inner_opt == 2) {
+									students.get(i).assignMarksDistribution();
+									students.get(i).displayMarksDistribution();
+									//inner_flag = 1;
+								}
+								
+								if(inner_opt == 3) {
+									System.out.println("Message from class coordinator of the class : " + students.get(i).tmsg);
+									//inner_flag = 1;
+								}
+								
+								if(inner_opt == 4) {
+									students.get(i).showNoticeT();
+									//nner_flag = 1;
+								}
+								
+								System.out.println("Exit from account ?");
+								inner_flag = sc.next().charAt(0);
+								
+							}while(inner_flag != 'Y');
 							
-							if(inner_opt == 4) {
-								students.get(i).showNoticeT();
-							}
-							
-						}while(inner_flag == 0);
-						
+						}
+					}
+
+					
+					if(flag == 0) {
+						System.out.println("Invalid ID or Password");
+						exit_acc = 'Y';
 					}
 				}
-
 				
-				if(flag == 0) {
-					System.out.println("Invalid ID or Password");
-				}
-			}
 			
 			
 			char ans;
@@ -124,13 +134,13 @@ public class Collegedatabase {
 						String fullName = teachers.get(i).getName();
 						System.out.println("Hello " + fullName);
 						
-						int inner_flag = 0;
-						System.out.println("1. View all the students of your class");
-						System.out.println("2. View your teaching timetable as assigned by principal");
-						System.out.println("3. Send a message to a student");
-						System.out.println("4. Send a message to all students of the class");
-						
+						char inner_flag;
 						do {
+							System.out.println("1. View all the students of your class");
+							System.out.println("2. View your teaching timetable as assigned by principal");
+							System.out.println("3. Send a message to a student");
+							System.out.println("4. Send a message to all students of the class");
+							
 							int inner_opt;
 							inner_opt = sc.nextInt();
 							
@@ -139,7 +149,7 @@ public class Collegedatabase {
 								System.out.println("Students in your class are");
 								for(int j = 0; j < students.size(); j++) {
 									if(teacherclass.contentEquals(students.get(j).getDiv())) {
-										System.out.println(students.get(j).getName());
+										System.out.println(students.get(j).getNameId());
 									}
 								}
 							}
@@ -173,9 +183,10 @@ public class Collegedatabase {
 								}
 							}
 							
-							inner_flag = 1;
+							System.out.println("Exit from account ?");
+							inner_flag = sc.next().charAt(0);
 							
-						}while(inner_flag == 0);
+						}while(inner_flag != 'Y');
 					}
 				}
 				

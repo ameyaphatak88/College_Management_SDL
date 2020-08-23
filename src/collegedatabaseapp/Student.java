@@ -23,6 +23,10 @@ public class Student {
 		return (this.firstName + " " + this.lastName);
 	}
 	
+	public String getNameId() {
+		return (this.studentId + " " + this.firstName + " " + this.lastName);
+	}
+	
 	public String getPass() {
 		return this.studentPass;
 	}
