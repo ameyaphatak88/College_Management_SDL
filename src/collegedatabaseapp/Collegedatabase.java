@@ -63,6 +63,10 @@ public class Collegedatabase {
 								System.out.println("Message from class coordinator of the class : " + students.get(i).tmsg);
 							}
 							
+							if(inner_opt == 4) {
+								students.get(i).showNoticeT();
+							}
+							
 						}while(inner_flag == 0);
 						
 					}
@@ -195,12 +199,39 @@ public class Collegedatabase {
 		
 	
 	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
 
 		ArrayList<Student> students = new ArrayList<Student>();
 		ArrayList<Teacher> teachers = new ArrayList<Teacher>();
+		char ch;
 		
-		students = student_operations(students);
-		teachers = teacher_operations(teachers,students);
+		do {
+			System.out.println("Which user ?");
+			System.out.println("1. Student");
+			System.out.println("2. Teacher");
+			System.out.println("3. Principal");
+			
+			int user_opt;
+			user_opt = sc.nextInt();
+			System.out.println(user_opt);
+			
+			if(user_opt == 1) {
+				students = student_operations(students);
+			}
+			if(user_opt == 2) {
+				teachers = teacher_operations(teachers,students);
+			}
+			if(user_opt == 3) {
+				System.out.println("Not yet added");
+			}
+			
+			System.out.println("Exit from system ?");
+			ch = sc.next().charAt(0);
+			System.out.println();
+		}while(ch !='Y');
+		
+		System.out.println("Thank you for using the college management app !!");
+		
 	}
 }
 
