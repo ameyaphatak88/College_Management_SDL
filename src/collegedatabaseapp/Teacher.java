@@ -46,9 +46,7 @@ public class Teacher {
 		return (this.firstName + " " + this.lastName);
 	}
 	
-	
-	
-	
+
 
 }
 

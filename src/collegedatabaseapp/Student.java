@@ -122,6 +122,13 @@ public class Student {
 			marks_distribution.put("Written", 50);
 		}
 	}
+	
+	public void display_student() {
+		System.out.println("Name : " + this.firstName + " " + this.lastName);
+		System.out.println("ID : " + this.studentId);
+		System.out.println("Division : " + this.division);
+		System.out.println("Year : " + this.year);
+	}
 
 	
 	public void display_subjects() {

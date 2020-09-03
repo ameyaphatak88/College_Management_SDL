@@ -32,7 +32,7 @@ public class Collegedatabase {
 					
 					int flag = 0;
 					for(int i = 0; i < students.size(); i++) {
-						System.out.println(students.get(i).getId());
+						//System.out.println(students.get(i).getId());
 						if(id.equals(students.get(i).getId()) && passw.equals(students.get(i).getPass())) {
 							flag = 1;
 							String fullname = students.get(i).getName();
@@ -207,6 +207,80 @@ public class Collegedatabase {
 		
 		return teachers;
 	}
+	
+	static Principal principal_operations(Principal p,ArrayList<Teacher> teachers, ArrayList<Student> students){
+		Scanner sc = new Scanner(System.in);
+		
+		int outer_flag = 0;
+		do {
+			int opt;
+			System.out.println("1. Sign up");
+			System.out.println("2. Log in");
+			opt = sc.nextInt();
+			
+			if(opt == 1) {
+				p.input_data();
+				//outer_flag = 1;
+			}
+			
+			if(opt == 2) {
+				String id;
+				String pass;
+				System.out.println("Enter id");
+				id = sc.nextLine();
+				id = sc.nextLine();
+				System.out.println("Enter password");
+				pass = sc.nextLine();
+				
+				if(id.contentEquals(p.getId()) && pass.contentEquals(p.getpass())){
+					p.displayname();
+					int inner_opt;
+					
+					System.out.println("1. Display all students");
+					System.out.println("2. Display all teachers");
+					System.out.println("3. See details of a particular student");
+					System.out.println("4. See details of a particular teacher");
+					inner_opt = sc.nextInt();
+					
+					if(inner_opt == 1) {
+						for(int i = 0; i < students.size(); i++) {
+							System.out.println(students.get(i).getName() + " " + students.get(i).getDiv());
+						}
+					}
+					if(inner_opt == 2) {
+						for(int i = 0; i < teachers.size(); i++) {
+							System.out.println(teachers.get(i).getName());
+						}
+					}
+					if(inner_opt == 3) {
+						String sid;
+						System.out.println("Enter student id");
+						sid = sc.nextLine();
+						for(int i = 0; i < students.size(); i++) {
+							if(sid.contentEquals(students.get(i).getId())) {
+								students.get(i);
+							}
+						}
+					}
+				}
+				else {
+					System.out.println("Invalid id or password!");
+				}
+				//outer_flag = 1;
+			}
+			
+			System.out.println("Exit from principal section ?");
+			char ch;
+			ch = sc.next().charAt(0);
+			if(ch == 'Y') {
+				outer_flag = 1;
+			}
+			
+			
+		}while(outer_flag == 0);
+		return p;
+		
+	}
 		
 	
 	public static void main(String[] args) {
@@ -214,6 +288,7 @@ public class Collegedatabase {
 
 		ArrayList<Student> students = new ArrayList<Student>();
 		ArrayList<Teacher> teachers = new ArrayList<Teacher>();
+		Principal p = new Principal();
 		char ch;
 		
 		do {
@@ -233,13 +308,16 @@ public class Collegedatabase {
 				teachers = teacher_operations(teachers,students);
 			}
 			if(user_opt == 3) {
-				System.out.println("Not yet added");
+				p = principal_operations(p, teachers, students);
 			}
 			
 			System.out.println("Exit from system ?");
 			ch = sc.next().charAt(0);
 			System.out.println();
 		}while(ch !='Y');
+		
+		//Principal p = new Principal();
+		//p = principal_operations(p, teachers, students);
 		
 		System.out.println("Thank you for using the college management app !!");
 		
