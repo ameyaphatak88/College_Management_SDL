@@ -1,6 +1,16 @@
 package collegedatabaseapp;
 
 import java.util.*;
+import java.net.*;
+import java.io.*;
+
+class Assignment implements Serializable{
+	String prob_statement;
+	String instructions;
+	String lastDate;
+	String marks;
+}
+
 public class Collegedatabase {
 	
 	static ArrayList<Student> student_operations(ArrayList<Student> students) {
@@ -46,6 +56,8 @@ public class Collegedatabase {
 								System.out.println("2.View the marks distribution ");
 								System.out.println("3. Check if any message from teacher");
 								System.out.println("4. Check if any notice from teacher");
+								System.out.println("5. Chat with teacher");
+								System.out.println("6. Receive the assignment from teachre who is connected");
 								
 								int inner_opt;
 								inner_opt = sc.nextInt();
@@ -70,6 +82,56 @@ public class Collegedatabase {
 								if(inner_opt == 4) {
 									students.get(i).showNoticeT();
 									//nner_flag = 1;
+								}
+								
+								if(inner_opt == 5) {
+									try{
+										Socket s = new Socket("localhost",1201);
+										DataInputStream din = new DataInputStream(s.getInputStream());
+										DataOutputStream dout = new DataOutputStream(s.getOutputStream());
+
+										BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+										String msgin = "", msgout = "";
+
+										while(!msgin.equals("end")){
+											msgout = br.readLine();
+											dout.writeUTF(msgout);
+											msgin = din.readUTF();
+											System.out.println("Teacher : " + msgin);
+										}
+										s.close();			
+
+									}catch(Exception e){
+										System.out.println("Exception");
+									}
+								}
+								
+								if(inner_opt == 6) {
+									try {
+										ServerSocket ss = new ServerSocket(7000);
+								        //System.out.println("ServerSocket awaiting connections...");
+								        Socket socket = ss.accept();
+								        //System.out.println("Connection from " + socket);
+
+								        //Deserialization
+								        InputStream is = socket.getInputStream();
+								        ObjectInputStream ois = new ObjectInputStream(is);
+								        Assignment obj1=(Assignment)ois.readObject();
+								        
+								        System.out.println("Values received from Client are:-");
+								        System.out.println("Problem Statement : "+obj1.prob_statement);
+								        System.out.println("Instructions : "+obj1.instructions);
+								        System.out.println("Last date : "+obj1.lastDate);
+								        System.out.println("Marks : "+obj1.marks);
+
+								        System.out.println("Closing sockets.");
+								        ss.close();
+								        socket.close();
+									}catch(Exception e) {
+										
+									}
+									
 								}
 								
 								System.out.println("Exit from account ?");
@@ -140,6 +202,8 @@ public class Collegedatabase {
 							System.out.println("2. View your teaching timetable as assigned by principal");
 							System.out.println("3. Send a message to a student");
 							System.out.println("4. Send a message to all students of the class");
+							System.out.println("5. Chat with student");
+							System.out.println("6. Assign a student(who is connected to socket) an assignment");
 							
 							int inner_opt;
 							inner_opt = sc.nextInt();
@@ -183,9 +247,60 @@ public class Collegedatabase {
 								}
 							}
 							
+							if(inner_opt == 5) {
+								try{
+									ServerSocket ss = new ServerSocket(1201);
+									Socket s = ss.accept();
+
+									System.out.println("Connencted");
+
+									DataInputStream din = new DataInputStream(s.getInputStream());
+									DataOutputStream dout = new DataOutputStream(s.getOutputStream());
+
+									BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+									String msgin = "", msgout = "";
+
+									while(!msgin.equals("end")){
+										msgin = din.readUTF();
+										System.out.println("Student : " + msgin);
+										msgout = br.readLine();
+										dout.writeUTF(msgout);
+										dout.flush();
+									}
+									s.close();
+								}catch(Exception e){
+									System.out.println("Exception");
+								}
+							}
+							
+							if(inner_opt == 6) {
+								try {
+									Assignment obj=new Assignment();
+							        obj.prob_statement = "Implement a SDL Project using Java";
+							        obj.instructions = "Implement using atleast 4 Java advance data structures. Use serialization, multithreading, sockets, JDBC.";
+							        obj.lastDate = "1 October 2020";
+							        obj.marks = "50";
+							      
+							        Socket socket = new Socket("localhost", 7000);
+							        System.out.println("Connected");
+
+							        //Serialization
+							        OutputStream os = socket.getOutputStream();
+							        ObjectOutputStream oos = new ObjectOutputStream(os);
+							        System.out.println("Sending values to the ServerSocket");
+							        oos.writeObject(obj);
+
+							        System.out.println("Closing socket and terminating program.");
+							        socket.close();
+								}catch(Exception e) {
+									
+								}
+								
+							}
+							
 							System.out.println("Exit from account ?");
 							inner_flag = sc.next().charAt(0);
-							
 						}while(inner_flag != 'Y');
 					}
 				}
@@ -230,7 +345,8 @@ public class Collegedatabase {
 				id = sc.nextLine();
 				id = sc.nextLine();
 				System.out.println("Enter password");
-				pass = sc.nextLine();
+				pass = sc.nextLine();		
+				
 				
 				if(id.contentEquals(p.getId()) && pass.contentEquals(p.getpass())){
 					p.displayname();

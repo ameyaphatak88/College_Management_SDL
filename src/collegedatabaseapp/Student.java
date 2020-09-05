@@ -36,7 +36,7 @@ public class Student {
 	}
 	
 	public void dispTeachMess() {
-		System.out.println("Treacher's message : " + this.teachers_message);
+		//System.out.println("Treacher's message : " + this.teachers_message);
 	}
 	
 	public void showNoticeT() {
