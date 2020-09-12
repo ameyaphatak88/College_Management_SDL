@@ -19,3 +19,4 @@ ASSIGNMENT 2
 -Use of socket programming. Created a chat box for student and a teacher to chat with each other(2 way communication).
 -Implementation of client-server architecture.
 -Use of serialization and deserialization. Teacher can send the project details to a student.
+-Created chatting option for student and principal.
