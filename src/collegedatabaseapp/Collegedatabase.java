@@ -58,6 +58,7 @@ public class Collegedatabase {
 								System.out.println("4. Check if any notice from teacher");
 								System.out.println("5. Chat with teacher");
 								System.out.println("6. Receive the assignment from teachre who is connected");
+								System.out.println("7. Chat with admin(principal)");
 								
 								int inner_opt;
 								inner_opt = sc.nextInt();
@@ -133,6 +134,32 @@ public class Collegedatabase {
 									}
 									
 								}
+								
+								
+								if(inner_opt == 7) {
+									try{
+										Socket s = new Socket("localhost",1202);
+										DataInputStream din = new DataInputStream(s.getInputStream());
+										DataOutputStream dout = new DataOutputStream(s.getOutputStream());
+
+										BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+										String msgin = "", msgout = "";
+
+										while(!msgin.equals("end")){
+											msgout = br.readLine();
+											dout.writeUTF(msgout);
+											msgin = din.readUTF();
+											System.out.println("Teacher : " + msgin);
+										}
+										s.close();			
+
+									}catch(Exception e){
+										System.out.println("Exception");
+									}
+								}
+								
+								
 								
 								System.out.println("Exit from account ?");
 								inner_flag = sc.next().charAt(0);
