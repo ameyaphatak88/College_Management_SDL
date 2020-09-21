@@ -1,6 +1,7 @@
 package collegedatabaseapp;
 
 import java.util.Scanner;
+import java.sql.*;
 
 public class Principal {
 	private String a;

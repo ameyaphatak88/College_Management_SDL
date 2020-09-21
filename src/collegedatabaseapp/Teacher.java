@@ -1,5 +1,6 @@
 package collegedatabaseapp;
 import java.util.*;
+import java.sql.*;
 
 public class Teacher {
 	private String firstName;

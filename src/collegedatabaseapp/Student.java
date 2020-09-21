@@ -2,6 +2,7 @@ package collegedatabaseapp;
 import java.util.*;
 import java.util.Scanner;
 import java.util.*;
+import java.sql.*;
 
 public class Student {
 	private String firstName;
@@ -35,6 +36,19 @@ public class Student {
 		return this.division;
 	}
 	
+	public String getFirstName() {
+		return this.firstName;
+	}
+	
+	public String getLastName() {
+		return this.lastName;
+	}
+	
+	public String getYear() {
+		return this.year;
+	}
+	
+	
 	public void dispTeachMess() {
 		//System.out.println("Treacher's message : " + this.teachers_message);
 	}
@@ -43,7 +57,7 @@ public class Student {
 		System.out.println("Notice from teacher : " + this.noticeT);
 	}
 	
-	public void input_data() {
+	public void input_data(){
 		Scanner in = new Scanner(System.in);
 		
 		System.out.print("Enter first name");
@@ -63,6 +77,8 @@ public class Student {
 		
 		System.out.print("Enter division");
 		this.division = in.nextLine();
+		
+		
 	}
 	
 	public void assignSubjects() {
@@ -142,6 +158,8 @@ public class Student {
 	public void displayMarksDistribution() {
 		System.out.println(marks_distribution);
 	}
+	
+	
 
 }
 

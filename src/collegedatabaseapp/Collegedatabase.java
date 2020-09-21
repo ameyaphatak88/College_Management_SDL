@@ -3,6 +3,7 @@ package collegedatabaseapp;
 import java.util.*;
 import java.net.*;
 import java.io.*;
+import java.sql.*;
 
 class Assignment implements Serializable{
 	String prob_statement;
@@ -11,9 +12,10 @@ class Assignment implements Serializable{
 	String marks;
 }
 
+
 public class Collegedatabase {
 	
-	static ArrayList<Student> student_operations(ArrayList<Student> students) {
+	static ArrayList<Student> student_operations(ArrayList<Student> students) throws Exception {
 		Scanner sc = new Scanner(System.in);		
 		
 		int outer_flag = 0;
@@ -27,7 +29,30 @@ public class Collegedatabase {
 			if(opt == 1) {
 				Student s1 = new Student();
 				s1.input_data();
-				students.add(s1);
+				Class.forName("com.mysql.jdbc.Driver");
+				String p1 = s1.getFirstName();
+				String p2 = s1.getLastName();
+				String p3 = s1.getId();
+				String p4 = s1.getYear();
+				String p5 = s1.getDiv();
+				String p6 = s1.getPass();
+				Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/sdldatabase","ostechnix","Password123#@!");
+				//Statement st=con.createStatement();
+				PreparedStatement st=con.prepareStatement("insert into students values(?,?,?,?,?,?)");
+				st.setString(1,p1);
+				st.setString(2,p2);
+				st.setString(3,p3);
+				st.setString(4,p4);
+				st.setString(5,p5);
+				st.setString(6,p6);
+				
+				int i=st.executeUpdate();
+
+				
+				
+				/*Student s1 = new Student();
+				s1.input_data();
+				students.add(s1);*/
 			}
 			
 			if(opt == 2) {
@@ -106,6 +131,7 @@ public class Collegedatabase {
 									}catch(Exception e){
 										System.out.println("Exception");
 									}
+									
 								}
 								
 								if(inner_opt == 6) {
@@ -206,6 +232,7 @@ public class Collegedatabase {
 			if(opt == 1) {
 				Teacher t1 = new Teacher();
 				t1.input_data();
+				
 				teachers.add(t1);
 			}
 			
@@ -299,6 +326,7 @@ public class Collegedatabase {
 								}catch(Exception e){
 									System.out.println("Exception");
 								}
+								
 							}
 							
 							if(inner_opt == 6) {
@@ -426,7 +454,9 @@ public class Collegedatabase {
 	}
 		
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
+		
+
 		Scanner sc = new Scanner(System.in);
 
 		ArrayList<Student> students = new ArrayList<Student>();
