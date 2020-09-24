@@ -231,14 +231,15 @@ public class Collegedatabase {
 							
 					}
 					
-					con.close();
-					st.close();
-					rs.close();
-					
 					if(flag == 0) {
 						System.out.println("Invalid ID or Password");
 						exit_acc = 'Y';
 					}
+					
+					con.close();
+					st.close();
+					rs.close();
+					
 				}
 				
 			
@@ -256,6 +257,16 @@ public class Collegedatabase {
 		return students;
 		
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	static ArrayList<Teacher> teacher_operations(ArrayList<Teacher> teachers, ArrayList<Student> students) throws Exception {
@@ -301,7 +312,25 @@ public class Collegedatabase {
 				String passw = sc.nextLine();
 				
 				int flag = 0;
-				for(int i = 0; i < teachers.size(); i++) {
+				
+				String queryCheck = "SELECT * from teachers WHERE teacherId= '" + id + "'";
+				Statement st = conn.createStatement();
+				
+				ResultSet rs = st.executeQuery(queryCheck);
+				
+				
+				
+				if(rs.absolute(1)) {
+					System.out.println("Exists");
+					flag = 1;
+				}
+				else {
+					System.out.println("Not exists");
+					flag = 0;
+				}
+				
+				
+				/*for(int i = 0; i < teachers.size(); i++) {
 					if(id.equals(teachers.get(i).getId()) && passw.equals(teachers.get(i).getPass())) {
 						flag = 1;
 						String fullName = teachers.get(i).getName();
@@ -411,10 +440,84 @@ public class Collegedatabase {
 								
 							}
 							
+							
 							System.out.println("Exit from account ?");
 							inner_flag = sc.next().charAt(0);
 						}while(inner_flag != 'Y');
-					}
+					}*/
+				
+				if(flag == 1) {
+					char inner_flag = 'q';
+					
+					do {
+						System.out.println("1. View all the students of your class");
+						System.out.println("2. View your teaching timetable as assigned by principal");
+						System.out.println("3. Send a message to a student");
+						System.out.println("4. Send a message to all students of the class");
+						System.out.println("5. Chat with student");
+						System.out.println("6. Assign a student(who is connected to socket) an assignment");
+						
+						int inner_opt;
+						inner_opt = sc.nextInt();
+						
+						if(inner_opt == 5) {
+							try{
+								ServerSocket ss = new ServerSocket(1201);
+								Socket s = ss.accept();
+
+								System.out.println("Connencted");
+
+								DataInputStream din = new DataInputStream(s.getInputStream());
+								DataOutputStream dout = new DataOutputStream(s.getOutputStream());
+
+								BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+								String msgin = "", msgout = "";
+
+								while(!msgin.equals("end")){
+									msgin = din.readUTF();
+									System.out.println("Student : " + msgin);
+									msgout = br.readLine();
+									dout.writeUTF(msgout);
+									dout.flush();
+								}
+								s.close();
+							}catch(Exception e){
+								System.out.println("Exception");
+							}
+							
+						}
+						
+						if(inner_opt == 6) {
+							try {
+								Assignment obj=new Assignment();
+						        obj.prob_statement = "Implement a SDL Project using Java";
+						        obj.instructions = "Implement using atleast 4 Java advance data structures. Use serialization, multithreading, sockets, JDBC.";
+						        obj.lastDate = "1 October 2020";
+						        obj.marks = "50";
+						      
+						        Socket socket = new Socket("localhost", 7000);
+						        System.out.println("Connected");
+
+						        //Serialization
+						        OutputStream os = socket.getOutputStream();
+						        ObjectOutputStream oos = new ObjectOutputStream(os);
+						        System.out.println("Sending values to the ServerSocket");
+						        oos.writeObject(obj);
+
+						        System.out.println("Closing socket and terminating program.");
+						        socket.close();
+							}catch(Exception e) {
+								
+							}
+							
+						}
+						
+						System.out.println("Exit from account ?");
+						inner_flag = sc.next().charAt(0);
+						
+						
+					}while(inner_flag != 'Y');
 				}
 				
 				if(flag == 0) {
