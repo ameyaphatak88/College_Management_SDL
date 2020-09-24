@@ -319,6 +319,57 @@ public class Collegedatabase {
 									System.out.println("In 4");
 								}
 								
+								if(inner_opt == 5) {
+									try{
+										Socket s = new Socket("localhost",1201);
+										DataInputStream din = new DataInputStream(s.getInputStream());
+										DataOutputStream dout = new DataOutputStream(s.getOutputStream());
+
+										BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+										String msgin = "", msgout = "";
+
+										while(!msgin.equals("end")){
+											msgout = br.readLine();
+											dout.writeUTF(msgout);
+											msgin = din.readUTF();
+											System.out.println("Teacher : " + msgin);
+										}
+										s.close();			
+
+									}catch(Exception e){
+										System.out.println("Exception");
+									}
+								}
+								
+								
+								if(inner_opt == 6) {
+									try {
+										ServerSocket ss = new ServerSocket(7000);
+								        //System.out.println("ServerSocket awaiting connections...");
+								        Socket socket = ss.accept();
+								        //System.out.println("Connection from " + socket);
+
+								        //Deserialization
+								        InputStream is = socket.getInputStream();
+								        ObjectInputStream ois = new ObjectInputStream(is);
+								        Assignment obj1=(Assignment)ois.readObject();
+								        
+								        System.out.println("Values received from Client are:-");
+								        System.out.println("Problem Statement : "+obj1.prob_statement);
+								        System.out.println("Instructions : "+obj1.instructions);
+								        System.out.println("Last date : "+obj1.lastDate);
+								        System.out.println("Marks : "+obj1.marks);
+
+								        System.out.println("Closing sockets.");
+								        ss.close();
+								        socket.close();
+									}catch(Exception e) {
+										
+									}
+									
+								}
+								
 								System.out.println("Exit from account ?");
 								inner_flag = sc.next().charAt(0);
 								
