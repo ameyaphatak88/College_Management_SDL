@@ -25,18 +25,20 @@ public class Collegedatabase {
 			System.out.println("1.Student sign up ");
 			System.out.println("2.Student login ");
 			opt = sc.nextInt();
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/sdldatabase","ostechnix","Password123#@!");
 			
 			if(opt == 1) {
 				Student s1 = new Student();
 				s1.input_data();
-				Class.forName("com.mysql.jdbc.Driver");
+				
 				String p1 = s1.getFirstName();
 				String p2 = s1.getLastName();
 				String p3 = s1.getId();
 				String p4 = s1.getYear();
 				String p5 = s1.getDiv();
 				String p6 = s1.getPass();
-				Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/sdldatabase","ostechnix","Password123#@!");
+				
 				//Statement st=con.createStatement();
 				PreparedStatement st=con.prepareStatement("insert into students values(?,?,?,?,?,?)");
 				st.setString(1,p1);
@@ -47,6 +49,7 @@ public class Collegedatabase {
 				st.setString(6,p6);
 				
 				int i=st.executeUpdate();
+				st.close();
 
 				
 				
@@ -66,7 +69,7 @@ public class Collegedatabase {
 					String passw = sc.nextLine();
 					
 					int flag = 0;
-					for(int i = 0; i < students.size(); i++) {
+					/*for(int i = 0; i < students.size(); i++) {
 						//System.out.println(students.get(i).getId());
 						if(id.equals(students.get(i).getId()) && passw.equals(students.get(i).getPass())) {
 							flag = 1;
@@ -184,7 +187,7 @@ public class Collegedatabase {
 										System.out.println("Exception");
 									}
 								}
-								
+							
 								
 								
 								System.out.println("Exit from account ?");
@@ -193,7 +196,44 @@ public class Collegedatabase {
 							}while(inner_flag != 'Y');
 							
 						}
+					}*/
+			
+					//int flag = 0;
+					/*Class.forName("com.mysql.jdbc.Driver");
+					Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/sdldatabase","ostechnix","Password123#@!");*/
+					String queryCheck = "SELECT * from students WHERE studentId= '" + id + "'";
+					Statement st = con.createStatement();
+					
+					ResultSet rs = st.executeQuery(queryCheck);
+					//int i=st.executeUpdate();
+					System.out.println(queryCheck);
+					System.out.println(rs);
+					while(rs.next()) {
+						System.out.print(rs.getString(1)+" ");
+						System.out.print(rs.getString(2)+" ");
+						System.out.print(rs.getString(3)+" ");
+						System.out.print(rs.getString(4)+" ");
+						System.out.print(rs.getString(5)+" ");
+						System.out.print(rs.getString(6)+" ");
+						
+						String yo = rs.getString(1);
+						
+						if(yo.equals("BINOD")) {
+							System.out.println("Hey!");
+						}
 					}
+					
+					
+					
+					
+					if(rs.absolute(1)) {
+						System.out.println("Exists");
+						flag = 1;
+					}
+					else {
+						System.out.println("Not exists");
+					}
+					
 
 					
 					if(flag == 0) {
