@@ -47,7 +47,17 @@ public class Teacher {
 		return (this.firstName + " " + this.lastName);
 	}
 	
-
-
+	public String getFirstName() {
+		return this.firstName;
+	}
+	
+	public String getLastName() {
+		return this.lastName;
+	}
+	
+	public String getCC() {
+		return this.ccof;
+	}
+	
 }
 

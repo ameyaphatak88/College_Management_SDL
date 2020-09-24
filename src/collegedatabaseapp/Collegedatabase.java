@@ -51,11 +51,7 @@ public class Collegedatabase {
 				int i=st.executeUpdate();
 				st.close();
 
-				
-				
-				/*Student s1 = new Student();
-				s1.input_data();
-				students.add(s1);*/
+
 			}
 			
 			if(opt == 2) {
@@ -69,134 +65,7 @@ public class Collegedatabase {
 					String passw = sc.nextLine();
 					
 					int flag = 0;
-					/*for(int i = 0; i < students.size(); i++) {
-						//System.out.println(students.get(i).getId());
-						if(id.equals(students.get(i).getId()) && passw.equals(students.get(i).getPass())) {
-							flag = 1;
-							String fullname = students.get(i).getName();
-							System.out.println("Hello " + fullname);
-							
-							char inner_flag;
-							
-							
-							do {
-								System.out.println("1.View all the subjects ");
-								System.out.println("2.View the marks distribution ");
-								System.out.println("3. Check if any message from teacher");
-								System.out.println("4. Check if any notice from teacher");
-								System.out.println("5. Chat with teacher");
-								System.out.println("6. Receive the assignment from teachre who is connected");
-								System.out.println("7. Chat with admin(principal)");
-								
-								int inner_opt;
-								inner_opt = sc.nextInt();
-								
-								if(inner_opt == 1) {
-									students.get(i).assignSubjects();
-									students.get(i).display_subjects();
-									//inner_flag = 1;
-								}
-								
-								if(inner_opt == 2) {
-									students.get(i).assignMarksDistribution();
-									students.get(i).displayMarksDistribution();
-									//inner_flag = 1;
-								}
-								
-								if(inner_opt == 3) {
-									System.out.println("Message from class coordinator of the class : " + students.get(i).tmsg);
-									//inner_flag = 1;
-								}
-								
-								if(inner_opt == 4) {
-									students.get(i).showNoticeT();
-									//nner_flag = 1;
-								}
-								
-								if(inner_opt == 5) {
-									try{
-										Socket s = new Socket("localhost",1201);
-										DataInputStream din = new DataInputStream(s.getInputStream());
-										DataOutputStream dout = new DataOutputStream(s.getOutputStream());
-
-										BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-
-										String msgin = "", msgout = "";
-
-										while(!msgin.equals("end")){
-											msgout = br.readLine();
-											dout.writeUTF(msgout);
-											msgin = din.readUTF();
-											System.out.println("Teacher : " + msgin);
-										}
-										s.close();			
-
-									}catch(Exception e){
-										System.out.println("Exception");
-									}
-									
-								}
-								
-								if(inner_opt == 6) {
-									try {
-										ServerSocket ss = new ServerSocket(7000);
-								        //System.out.println("ServerSocket awaiting connections...");
-								        Socket socket = ss.accept();
-								        //System.out.println("Connection from " + socket);
-
-								        //Deserialization
-								        InputStream is = socket.getInputStream();
-								        ObjectInputStream ois = new ObjectInputStream(is);
-								        Assignment obj1=(Assignment)ois.readObject();
-								        
-								        System.out.println("Values received from Client are:-");
-								        System.out.println("Problem Statement : "+obj1.prob_statement);
-								        System.out.println("Instructions : "+obj1.instructions);
-								        System.out.println("Last date : "+obj1.lastDate);
-								        System.out.println("Marks : "+obj1.marks);
-
-								        System.out.println("Closing sockets.");
-								        ss.close();
-								        socket.close();
-									}catch(Exception e) {
-										
-									}
-									
-								}
-								
-								
-								if(inner_opt == 7) {
-									try{
-										Socket s = new Socket("localhost",1202);
-										DataInputStream din = new DataInputStream(s.getInputStream());
-										DataOutputStream dout = new DataOutputStream(s.getOutputStream());
-
-										BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-
-										String msgin = "", msgout = "";
-
-										while(!msgin.equals("end")){
-											msgout = br.readLine();
-											dout.writeUTF(msgout);
-											msgin = din.readUTF();
-											System.out.println("Teacher : " + msgin);
-										}
-										s.close();			
-
-									}catch(Exception e){
-										System.out.println("Exception");
-									}
-								}
-							
-								
-								
-								System.out.println("Exit from account ?");
-								inner_flag = sc.next().charAt(0);
-								
-							}while(inner_flag != 'Y');
-							
-						}
-					}*/
+					
 			
 					//int flag = 0;
 					/*Class.forName("com.mysql.jdbc.Driver");
@@ -205,23 +74,7 @@ public class Collegedatabase {
 					Statement st = con.createStatement();
 					
 					ResultSet rs = st.executeQuery(queryCheck);
-					//int i=st.executeUpdate();
-					/*System.out.println(queryCheck);
-					System.out.println(rs);
-					while(rs.next()) {
-						System.out.print(rs.getString(1)+" ");
-						System.out.print(rs.getString(2)+" ");
-						System.out.print(rs.getString(3)+" ");
-						System.out.print(rs.getString(4)+" ");
-						System.out.print(rs.getString(5)+" ");
-						System.out.print(rs.getString(6)+" ");
-						
-						String yo = rs.getString(1);
-						
-						if(yo.equals("BINOD")) {
-							System.out.println("Hey!");
-						}
-					}*/
+					
 					char inner_flag = 'q';
 					
 					if(rs.absolute(1)) {
@@ -376,9 +229,11 @@ public class Collegedatabase {
 								
 							}while(inner_flag != 'Y');
 							
-												
 					}
 					
+					con.close();
+					st.close();
+					rs.close();
 					
 					if(flag == 0) {
 						System.out.println("Invalid ID or Password");
@@ -403,7 +258,7 @@ public class Collegedatabase {
 	}
 	
 	
-	static ArrayList<Teacher> teacher_operations(ArrayList<Teacher> teachers, ArrayList<Student> students) {
+	static ArrayList<Teacher> teacher_operations(ArrayList<Teacher> teachers, ArrayList<Student> students) throws Exception {
 		Scanner sc = new Scanner(System.in);
 		
 		int outer_flag = 0;
@@ -413,11 +268,29 @@ public class Collegedatabase {
 			System.out.println("2.Teacher log in");
 			opt = sc.nextInt();
 			
+			
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection conn=DriverManager.getConnection("jdbc:mysql://localhost:3306/sdldatabase","ostechnix","Password123#@!");
+			
 			if(opt == 1) {
 				Teacher t1 = new Teacher();
 				t1.input_data();
 				
-				teachers.add(t1);
+				String p1 = t1.getFirstName();
+				String p2 = t1.getLastName();
+				String p3 = t1.getId();
+				String p4 = t1.getPass();
+				String p5 = t1.getCC();
+				
+				PreparedStatement st=conn.prepareStatement("insert into teachers values(?,?,?,?,?)");
+				st.setString(1,p1);
+				st.setString(2,p2);
+				st.setString(3,p3);
+				st.setString(4,p4);
+				st.setString(5,p5);
+				
+				int i = st.executeUpdate();
+				st.close();
 			}
 			
 			if(opt == 2) {
