@@ -250,7 +250,6 @@ public class Collegedatabase {
 								System.out.println("6. Receive the assignment from teachre who is connected");
 								System.out.println("7. Chat with admin(principal)");
 								
-								System.out.println(rs.getString(4));
 								int inner_opt;
 								inner_opt = sc.nextInt();
 								
@@ -260,7 +259,7 @@ public class Collegedatabase {
 										System.out.println("BXE");
 										System.out.println("PHYSICS");
 										System.out.println("CHEMISTRY");
-										System.out.println("MATHS 1");
+										System.out.println("MATHS");
 									}
 									
 									if(rs.getString(4).equals("SE")) {
@@ -286,7 +285,30 @@ public class Collegedatabase {
 								}
 								
 								if(inner_opt == 2) {
-									System.out.println("In 2");
+									if(rs.getString(4).equals("FE")) {
+										System.out.println("50 : ONLINE");
+										System.out.println("50 : WRITTEN");
+										System.out.println("25 : TERMWORK");
+									}
+									
+									if(rs.getString(4).equals("SE")) {
+										System.out.println("50 : PRACTICALS");
+										System.out.println("50 : ONLINE");
+										System.out.println("50 : WRITTEN");
+										System.out.println("25 : TERM WORK");
+									}
+									
+									if(rs.getString(4).equals("TE")) {
+										System.out.println("30 : MIDSEM");
+										System.out.println("70 : ENDSEM");
+										System.out.println("50 : PRACTICAL");
+										System.out.println("25 : TERMWORK");
+									}
+									
+									if(rs.getString(4).equals("BE")) {
+										System.out.println("50 : PROJECTT");
+										System.out.println("50 : WRITTEN");
+									}
 								}
 								
 								if(inner_opt == 3) {
@@ -303,8 +325,7 @@ public class Collegedatabase {
 								
 							}while(inner_flag != 'Y');
 							
-						
-						
+												
 					}
 					
 					
