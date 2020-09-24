@@ -206,7 +206,7 @@ public class Collegedatabase {
 					
 					ResultSet rs = st.executeQuery(queryCheck);
 					//int i=st.executeUpdate();
-					System.out.println(queryCheck);
+					/*System.out.println(queryCheck);
 					System.out.println(rs);
 					while(rs.next()) {
 						System.out.print(rs.getString(1)+" ");
@@ -221,10 +221,8 @@ public class Collegedatabase {
 						if(yo.equals("BINOD")) {
 							System.out.println("Hey!");
 						}
-					}
-					
-					
-					
+					}*/
+					char inner_flag = 'q';
 					
 					if(rs.absolute(1)) {
 						System.out.println("Exists");
@@ -232,9 +230,83 @@ public class Collegedatabase {
 					}
 					else {
 						System.out.println("Not exists");
+						flag = 0;
 					}
 					
-
+					System.out.println("FLAG : " + flag);
+					
+					if(flag == 1) {
+						System.out.println("Hey!");
+						
+						
+							System.out.println(rs);
+							
+							do {
+								System.out.println("1.View all the subjects ");
+								System.out.println("2.View the marks distribution ");
+								System.out.println("3. Check if any message from teacher");
+								System.out.println("4. Check if any notice from teacher");
+								System.out.println("5. Chat with teacher");
+								System.out.println("6. Receive the assignment from teachre who is connected");
+								System.out.println("7. Chat with admin(principal)");
+								
+								System.out.println(rs.getString(4));
+								int inner_opt;
+								inner_opt = sc.nextInt();
+								
+								
+								if(inner_opt == 1) {
+									if(rs.getString(4).equals("FE")) {
+										System.out.println("BXE");
+										System.out.println("PHYSICS");
+										System.out.println("CHEMISTRY");
+										System.out.println("MATHS 1");
+									}
+									
+									if(rs.getString(4).equals("SE")) {
+										System.out.println("DSA");
+										System.out.println("OOP");
+										System.out.println("DELD");
+										System.out.println("DM");
+									}
+									
+									if(rs.getString(4).equals("TE")) {
+										System.out.println("SDL");
+										System.out.println("DBMS");
+										System.out.println("CN");
+										System.out.println("TOC");
+									}
+									
+									if(rs.getString(4).equals("BE")) {
+										System.out.println("WEB DEVELOPMENT");
+										System.out.println("AI");
+										System.out.println("DATA ANALYSIS");
+										System.out.println("DEEP LEARNING");
+									}
+								}
+								
+								if(inner_opt == 2) {
+									System.out.println("In 2");
+								}
+								
+								if(inner_opt == 3) {
+									System.out.println("In 3");
+								}
+								
+								if(inner_opt == 4) {
+									System.out.println("In 4");
+								}
+								
+								System.out.println("Exit from account ?");
+								inner_flag = sc.next().charAt(0);
+								
+								
+							}while(inner_flag != 'Y');
+							
+						
+						
+					}
+					
 					
 					if(flag == 0) {
 						System.out.println("Invalid ID or Password");
