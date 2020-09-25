@@ -4,6 +4,14 @@ import java.util.*;
 import java.net.*;
 import java.io.*;
 import java.sql.*;
+import java.io.DataInputStream;
+import java.io.PrintStream;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.IOException;
+import java.net.Socket;
+import java.net.UnknownHostException;
+
 
 class Assignment implements Serializable{
 	String prob_statement;
@@ -12,14 +20,123 @@ class Assignment implements Serializable{
 	String marks;
 }
 
+//------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+
+
+class MultiThreadChatClient implements Runnable {
+
+	  // The client socket
+	  private static Socket clientSocket = null;
+	  // The output stream
+	  private static PrintStream os = null;
+	  // The input stream
+	  private static DataInputStream is = null;
+
+	  private static BufferedReader inputLine = null;
+	  private static boolean closed = false;
+	  
+	  public static void main(String[] args) {
+
+	    // The default port.
+	    int portNumber = 2222;
+	    // The default host.
+	    String host = "localhost";
+
+	    if (args.length < 2) {
+	      System.out
+	          .println("Usage: java MultiThreadChatClient <host> <portNumber>\n"
+	              + "Now using host=" + host + ", portNumber=" + portNumber);
+	    } else {
+	      host = args[0];
+	      portNumber = Integer.valueOf(args[1]).intValue();
+	    }
+
+	    /*
+	     * Open a socket on a given host and port. Open input and output streams.
+	     */
+	    try {
+	      clientSocket = new Socket(host, portNumber);
+	      inputLine = new BufferedReader(new InputStreamReader(System.in));
+	      os = new PrintStream(clientSocket.getOutputStream());
+	      is = new DataInputStream(clientSocket.getInputStream());
+	    } catch (UnknownHostException e) {
+	      System.err.println("Don't know about host " + host);
+	    } catch (IOException e) {
+	      System.err.println("Couldn't get I/O for the connection to the host "
+	          + host);
+	    }
+
+	    /*
+	     * If everything has been initialized then we want to write some data to the
+	     * socket we have opened a connection to on the port portNumber.
+	     */
+	    if (clientSocket != null && os != null && is != null) {
+	      try {
+
+	        /* Create a thread to read from the server. */
+	        new Thread(new MultiThreadChatClient()).start();
+	        while (!closed) {
+	          os.println(inputLine.readLine().trim());
+	        }
+	        /*
+	         * Close the output stream, close the input stream, close the socket.
+	         */
+	        os.close();
+	        is.close();
+	        clientSocket.close();
+	      } catch (IOException e) {
+	        System.err.println("IOException:  " + e);
+	      }
+	    }
+	  }
+
+	  /*
+	   * Create a thread to read from the server. (non-Javadoc)
+	   * 
+	   * @see java.lang.Runnable#run()
+	   */
+	  public void run() {
+	    /*
+	     * Keep on reading from the socket till we receive "Bye" from the
+	     * server. Once we received that then we want to break.
+	     */
+	    String responseLine;
+	    try {
+	      while ((responseLine = is.readLine()) != null) {
+	        System.out.println(responseLine);
+	        if (responseLine.indexOf("*** Bye") != -1)
+	          break;
+	      }
+	      closed = true;
+	    } catch (IOException e) {
+	      System.err.println("IOException:  " + e);
+	    }
+	  }
+	}
+
+
+
+//------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+//-------------------------------------------------------------------------------------------------------------------------------------------------------------
 public class Collegedatabase {
 	
 	static ArrayList<Student> student_operations(ArrayList<Student> students) throws Exception {
 		Scanner sc = new Scanner(System.in);		
 		
 		int outer_flag = 0;
-		
 		do {
 			int opt;
 			System.out.println("1.Student sign up ");
@@ -102,6 +219,7 @@ public class Collegedatabase {
 								System.out.println("5. Chat with teacher");
 								System.out.println("6. Receive the assignment from teachre who is connected");
 								System.out.println("7. Chat with admin(principal)");
+								System.out.println("8. Multi client chat");
 								
 								int inner_opt;
 								inner_opt = sc.nextInt();
@@ -223,6 +341,13 @@ public class Collegedatabase {
 									
 								}
 								
+								
+								if(inner_opt == 8) {
+									MultiThreadChatClient p = new MultiThreadChatClient();
+									Thread t1 = new Thread(p);
+									t1.start();
+								}
+								
 								System.out.println("Exit from account ?");
 								inner_flag = sc.next().charAt(0);
 								
@@ -259,12 +384,7 @@ public class Collegedatabase {
 	}
 	
 	
-	
-	
-	
-	
-	
-	
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------	
 	
 	
 	
@@ -329,123 +449,6 @@ public class Collegedatabase {
 					flag = 0;
 				}
 				
-				
-				/*for(int i = 0; i < teachers.size(); i++) {
-					if(id.equals(teachers.get(i).getId()) && passw.equals(teachers.get(i).getPass())) {
-						flag = 1;
-						String fullName = teachers.get(i).getName();
-						System.out.println("Hello " + fullName);
-						
-						char inner_flag;
-						do {
-							System.out.println("1. View all the students of your class");
-							System.out.println("2. View your teaching timetable as assigned by principal");
-							System.out.println("3. Send a message to a student");
-							System.out.println("4. Send a message to all students of the class");
-							System.out.println("5. Chat with student");
-							System.out.println("6. Assign a student(who is connected to socket) an assignment");
-							
-							int inner_opt;
-							inner_opt = sc.nextInt();
-							
-							if(inner_opt == 1) {
-								String teacherclass = teachers.get(i).getclass();
-								System.out.println("Students in your class are");
-								for(int j = 0; j < students.size(); j++) {
-									if(teacherclass.contentEquals(students.get(j).getDiv())) {
-										System.out.println(students.get(j).getNameId());
-									}
-								}
-							}
-							
-							if(inner_opt == 3) {
-								String messg;
-								System.out.println("Enter student id");
-								String stid = sc.nextLine();
-								stid = sc.nextLine();
-								int stfound = 0;
-								for(int j = 0; j < students.size(); j++) {
-									if(students.get(j).getId().contentEquals(stid)) {
-										stfound = 1;
-										System.out.println("Enter the message you want to send this student");
-										messg = sc.nextLine();
-										students.get(j).tmsg = messg;
-									}
-								}
-								if(stfound == 0) {
-									System.out.println("Student not found");
-								}
-							}
-							
-							if(inner_opt == 4) {
-								String notice;
-								System.out.println("Enter the notice you want to convey to all students :");
-								notice = sc.nextLine();
-								notice = sc.nextLine();
-								for(int j = 0; j < students.size(); j++) {
-									students.get(j).noticeT = notice;
-								}
-							}
-							
-							if(inner_opt == 5) {
-								try{
-									ServerSocket ss = new ServerSocket(1201);
-									Socket s = ss.accept();
-
-									System.out.println("Connencted");
-
-									DataInputStream din = new DataInputStream(s.getInputStream());
-									DataOutputStream dout = new DataOutputStream(s.getOutputStream());
-
-									BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-
-									String msgin = "", msgout = "";
-
-									while(!msgin.equals("end")){
-										msgin = din.readUTF();
-										System.out.println("Student : " + msgin);
-										msgout = br.readLine();
-										dout.writeUTF(msgout);
-										dout.flush();
-									}
-									s.close();
-								}catch(Exception e){
-									System.out.println("Exception");
-								}
-								
-							}
-							
-							if(inner_opt == 6) {
-								try {
-									Assignment obj=new Assignment();
-							        obj.prob_statement = "Implement a SDL Project using Java";
-							        obj.instructions = "Implement using atleast 4 Java advance data structures. Use serialization, multithreading, sockets, JDBC.";
-							        obj.lastDate = "1 October 2020";
-							        obj.marks = "50";
-							      
-							        Socket socket = new Socket("localhost", 7000);
-							        System.out.println("Connected");
-
-							        //Serialization
-							        OutputStream os = socket.getOutputStream();
-							        ObjectOutputStream oos = new ObjectOutputStream(os);
-							        System.out.println("Sending values to the ServerSocket");
-							        oos.writeObject(obj);
-
-							        System.out.println("Closing socket and terminating program.");
-							        socket.close();
-								}catch(Exception e) {
-									
-								}
-								
-							}
-							
-							
-							System.out.println("Exit from account ?");
-							inner_flag = sc.next().charAt(0);
-						}while(inner_flag != 'Y');
-					}*/
-				
 				if(flag == 1) {
 					char inner_flag = 'q';
 					
@@ -456,6 +459,7 @@ public class Collegedatabase {
 						System.out.println("4. Send a message to all students of the class");
 						System.out.println("5. Chat with student");
 						System.out.println("6. Assign a student(who is connected to socket) an assignment");
+						System.out.println("7. Multi client chat");
 						
 						int inner_opt;
 						inner_opt = sc.nextInt();
@@ -512,6 +516,12 @@ public class Collegedatabase {
 							}
 							
 						}
+						
+						if(inner_opt == 8) {
+							//MultiThreadChatServer m = new MultiThreadChatServer();
+						}
+						
+						
 						
 						System.out.println("Exit from account ?");
 						inner_flag = sc.next().charAt(0);
@@ -653,6 +663,8 @@ public class Collegedatabase {
 		//p = principal_operations(p, teachers, students);
 		
 		System.out.println("Thank you for using the college management app !!");
+		
+		
 		
 	}
 }
