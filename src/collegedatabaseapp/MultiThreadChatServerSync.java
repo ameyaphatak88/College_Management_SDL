@@ -6,9 +6,7 @@ import java.io.IOException;
 import java.net.Socket;
 import java.net.ServerSocket;
 
-/*
- * A chat server that delivers public and private messages.
- */
+
 public class MultiThreadChatServerSync {
 
   // The server socket.
@@ -120,6 +118,8 @@ class clientThread extends Thread {
           if (threads[i] != null && threads[i] != this) {
             threads[i].os.println("*** A new user " + name
                 + " entered the chat room !!! ***");
+            System.out.println("*** A new user " + name
+                + " entered the chat room !!! ***");
           }
         }
       }
@@ -160,6 +160,7 @@ class clientThread extends Thread {
                 threads[i].os.println("<" + name + "> " + line);
               }
             }
+            System.out.println("<" + name + "> " + line);
           }
         }
       }
@@ -169,6 +170,8 @@ class clientThread extends Thread {
               && threads[i].clientName != null) {
             threads[i].os.println("*** The user " + name
                 + " is leaving the chat room !!! ***");
+            System.out.println("*** The user " + name
+                    + " is leaving the chat room !!! ***");
           }
         }
       }
