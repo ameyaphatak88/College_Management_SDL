@@ -238,11 +238,11 @@ public class Collegedatabase {
 								}
 								
 								
-								if(inner_opt == 8) {
+								/*if(inner_opt == 8) {
 									MultiThreadChatClient p = new MultiThreadChatClient();
 									Thread t1 = new Thread(p);
 									t1.start();
-								}
+								}*/
 								
 								System.out.println("Exit from account ?");
 								inner_flag = sc.next().charAt(0);
