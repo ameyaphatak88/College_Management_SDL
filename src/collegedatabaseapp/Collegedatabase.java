@@ -43,6 +43,17 @@ public class Collegedatabase {
 	// This chat server can accept up to maxClientsCount clients' connections.
 	private static final int maxClientsCount = 10;
 	private static final clientThread[] threads = new clientThread[maxClientsCount];
+	
+	
+	  // The client socket
+	  //private static Socket clientSocket = null;
+	  // The output stream
+	  private static PrintStream os = null;
+	  // The input stream
+	  private static DataInputStream is = null;
+
+	  private static BufferedReader inputLine = null;
+	  private static boolean closed = false;
 
 	
 	static ArrayList<Student> student_operations(ArrayList<Student> students) throws Exception {
@@ -742,6 +753,24 @@ public class Collegedatabase {
 		return p;
 		
 	}
+	
+	  public void run() {
+		    /*
+		     * Keep on reading from the socket till we receive "Bye" from the
+		     * server. Once we received that then we want to break.
+		     */
+		    String responseLine;
+		    try {
+		      while ((responseLine = is.readLine()) != null) {
+		        System.out.println(responseLine);
+		        if (responseLine.indexOf("*** Bye") != -1)
+		          break;
+		      }
+		      closed = true;
+		    } catch (IOException e) {
+		      System.err.println("IOException:  " + e);
+		    }
+		  }
 		
 	
 //---------------------------------------------------------------------------------------------------------------------------------------------
@@ -749,7 +778,7 @@ public class Collegedatabase {
 	public static void main(String[] args) throws Exception {
 		
 
-		/*Scanner sc = new Scanner(System.in);
+		Scanner sc = new Scanner(System.in);
 
 		ArrayList<Student> students = new ArrayList<Student>();
 		ArrayList<Teacher> teachers = new ArrayList<Teacher>();
@@ -761,6 +790,8 @@ public class Collegedatabase {
 			System.out.println("1. Student");
 			System.out.println("2. Teacher");
 			System.out.println("3. Principal");
+			System.out.println("4. Chat as server");
+			System.out.println("5. Chat as client");
 			
 			int user_opt;
 			user_opt = sc.nextInt();
@@ -776,6 +807,106 @@ public class Collegedatabase {
 				p = principal_operations(p, teachers, students);
 			}
 			
+			if(user_opt == 4) {
+				int portNumber = 2222;
+			    if (args.length < 1) {
+			      System.out.println("Usage: java MultiThreadChatServerSync <portNumber>\n"
+			          + "Now using port number=" + portNumber);
+			    } else {
+			      portNumber = Integer.valueOf(args[0]).intValue();
+			    }
+
+			    /*
+			     * Open a server socket on the portNumber (default 2222). 
+			     */
+			    try {
+			      serverSocket = new ServerSocket(portNumber);
+			    } catch (IOException e) {
+			      System.out.println(e);
+			    }
+
+			    /*
+			     * Create a client socket for each connection and pass it to a new client
+			     * thread.
+			     */
+			    while (true) {
+			      try {
+			        clientSocket = serverSocket.accept();
+			        int i = 0;
+			        for (i = 0; i < maxClientsCount; i++) {
+			          if (threads[i] == null) {
+			            (threads[i] = new clientThread(clientSocket, threads)).start();
+			            break;
+			          }
+			        }
+			        if (i == maxClientsCount) {
+			          PrintStream os = new PrintStream(clientSocket.getOutputStream());
+			          os.println("Server too busy. Try later.");
+			          os.close();
+			          clientSocket.close();
+			        }
+			      } catch (IOException e) {
+			        System.out.println(e);
+			      }
+			    }
+			}
+			
+			
+			if(user_opt == 5) {
+			    // The default port.
+			    int portNumber = 2222;
+			    // The default host.
+			    String host = "localhost";
+
+			    if (args.length < 2) {
+			      System.out
+			          .println("Usage: java MultiThreadChatClient <host> <portNumber>\n"
+			              + "Now using host=" + host + ", portNumber=" + portNumber);
+			    } else {
+			      host = args[0];
+			      portNumber = Integer.valueOf(args[1]).intValue();
+			    }
+
+			    /*
+			     * Open a socket on a given host and port. Open input and output streams.
+			     */
+			    try {
+			      clientSocket = new Socket(host, portNumber);
+			      inputLine = new BufferedReader(new InputStreamReader(System.in));
+			      os = new PrintStream(clientSocket.getOutputStream());
+			      is = new DataInputStream(clientSocket.getInputStream());
+			    } catch (UnknownHostException e) {
+			      System.err.println("Don't know about host " + host);
+			    } catch (IOException e) {
+			      System.err.println("Couldn't get I/O for the connection to the host "
+			          + host);
+			    }
+
+			    /*
+			     * If everything has been initialized then we want to write some data to the
+			     * socket we have opened a connection to on the port portNumber.
+			     */
+			    if (clientSocket != null && os != null && is != null) {
+			      try {
+
+			        /* Create a thread to read from the server. */
+			        //new Thread(new MultiThreadChatClient()).start();
+			        while (!closed) {
+			          os.println(inputLine.readLine().trim());
+			        }
+			        /*
+			         * Close the output stream, close the input stream, close the socket.
+			         */
+			        os.close();
+			        is.close();
+			        clientSocket.close();
+			      } catch (IOException e) {
+			        System.err.println("IOException:  " + e);
+			      }
+			    }
+			}
+			
+			
 			System.out.println("Exit from system ?");
 			ch = sc.next().charAt(0);
 			System.out.println();
@@ -784,55 +915,13 @@ public class Collegedatabase {
 		//Principal p = new Principal();
 		//p = principal_operations(p, teachers, students);
 		
-		System.out.println("Thank you for using the college management app !!");*/
+		System.out.println("Thank you for using the college management app !!");
 		
 		// The server socket.
-		  
-
-		  
+		  		  
 
 		    // The default port number.
-		    int portNumber = 2222;
-		    if (args.length < 1) {
-		      System.out.println("Usage: java MultiThreadChatServerSync <portNumber>\n"
-		          + "Now using port number=" + portNumber);
-		    } else {
-		      portNumber = Integer.valueOf(args[0]).intValue();
-		    }
-
-		    /*
-		     * Open a server socket on the portNumber (default 2222). 
-		     */
-		    try {
-		      serverSocket = new ServerSocket(portNumber);
-		    } catch (IOException e) {
-		      System.out.println(e);
-		    }
-
-		    /*
-		     * Create a client socket for each connection and pass it to a new client
-		     * thread.
-		     */
-		    while (true) {
-		      try {
-		        clientSocket = serverSocket.accept();
-		        int i = 0;
-		        for (i = 0; i < maxClientsCount; i++) {
-		          if (threads[i] == null) {
-		            (threads[i] = new clientThread(clientSocket, threads)).start();
-		            break;
-		          }
-		        }
-		        if (i == maxClientsCount) {
-		          PrintStream os = new PrintStream(clientSocket.getOutputStream());
-		          os.println("Server too busy. Try later.");
-		          os.close();
-		          clientSocket.close();
-		        }
-		      } catch (IOException e) {
-		        System.out.println(e);
-		      }
-		    }
+		    
 		  
 		
 	}
