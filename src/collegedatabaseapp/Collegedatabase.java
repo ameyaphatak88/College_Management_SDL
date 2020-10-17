@@ -37,6 +37,7 @@ public class Collegedatabase {
 			int opt;
 			System.out.println("1.Student sign up ");
 			System.out.println("2.Student login ");
+			System.out.println("3.Update student details");
 			opt = sc.nextInt();
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/sdldatabase","ostechnix","Password123#@!");
@@ -65,6 +66,118 @@ public class Collegedatabase {
 				st.close();
 
 
+			}
+			
+			if(opt == 3) {
+				char exit_acc;
+				//String id = "ramram";
+				System.out.println("Enter student id");
+				String id = sc.nextLine();
+				id = sc.nextLine();
+				
+				System.out.println("Enter password");
+				String passw = sc.nextLine();
+				
+				int flag = 0;
+				
+		
+				//int flag = 0;
+				/*Class.forName("com.mysql.jdbc.Driver");
+				Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/sdldatabase","ostechnix","Password123#@!");*/
+				String queryCheck = "SELECT * from students WHERE studentId= '" + id + "'";
+				Statement st = con.createStatement();
+				
+				ResultSet rs = st.executeQuery(queryCheck);
+				
+				char inner_flag = 'q';
+				
+				if(rs.absolute(1)) {
+					System.out.println("Exists");
+					flag = 1;
+				}
+				else {
+					System.out.println("Not exists");
+					flag = 0;
+				}
+				
+				System.out.println("FLAG : " + flag);
+				
+				if(flag == 1){
+					System.out.println("What do you want to edit/update??");
+					System.out.println("1. First Name");
+					System.out.println("2. Last Name");
+					System.out.println("3. Year");
+					System.out.println("4. Division");
+					
+					int inner_opt = sc.nextInt();
+					switch(inner_opt) {
+					case 1:
+						String fn;
+						System.out.println("Enter updated first name");
+						fn = sc.nextLine();
+						fn = sc.nextLine();
+						
+						st = con.createStatement();
+					    String sql = "UPDATE students " +
+					                   "SET firstName = '" + fn + "' WHERE studentId = '" + id + "'";
+					    System.out.println("SQL IS " + sql);
+					    st.executeUpdate(sql);
+						
+						
+						break;
+						
+					case 2:
+						
+						String ln;
+						System.out.println("Enter updated last name");
+						ln = sc.nextLine();
+						ln = sc.nextLine();
+						
+						st = con.createStatement();
+					    String sql2 = "UPDATE students " +
+					                   "SET lastName = '" + ln + "' WHERE studentId = '" + id + "'";
+					    System.out.println("SQL IS " + sql2);
+					    st.executeUpdate(sql2);
+					    
+						break;
+						
+					case 3:
+						
+						String y;
+						System.out.println("Enter updated year");
+						y = sc.nextLine();
+						y = sc.nextLine();
+						
+						st = con.createStatement();
+					    String sql3 = "UPDATE students " +
+					                   "SET year = '" + y + "' WHERE studentId = '" + id + "'";
+					    System.out.println("SQL IS " + sql3);
+					    st.executeUpdate(sql3);
+					    
+					    
+						break;
+						
+					case 4:
+						
+						String d;
+						System.out.println("Enter updated division");
+						d = sc.nextLine();
+						d = sc.nextLine();
+						
+						st = con.createStatement();
+					    String sql4 = "UPDATE students " +
+					                   "SET division = '" + d + "' WHERE studentId = '" + id + "'";
+					    System.out.println("SQL IS " + sql4);
+					    st.executeUpdate(sql4);
+					    
+						break;
+						
+					}
+				}
+				
+				st.close();
+				rs.close();
+				
 			}
 			
 			if(opt == 2) {
