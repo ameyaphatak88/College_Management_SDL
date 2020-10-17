@@ -38,6 +38,7 @@ public class Collegedatabase {
 			System.out.println("1.Student sign up ");
 			System.out.println("2.Student login ");
 			System.out.println("3.Update student details");
+			System.out.println("4.Delete a particular student");
 			opt = sc.nextInt();
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/sdldatabase","ostechnix","Password123#@!");
@@ -177,6 +178,51 @@ public class Collegedatabase {
 				
 				st.close();
 				rs.close();
+				
+			}
+			
+			
+			if(opt == 4) {
+				
+				char exit_acc;
+				//String id = "ramram";
+				System.out.println("Enter student id");
+				String id = sc.nextLine();
+				id = sc.nextLine();
+				
+				System.out.println("Enter password");
+				String passw = sc.nextLine();
+				
+				int flag = 0;
+				
+		
+				//int flag = 0;
+				/*Class.forName("com.mysql.jdbc.Driver");
+				Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/sdldatabase","ostechnix","Password123#@!");*/
+				String queryCheck = "SELECT * from students WHERE studentId= '" + id + "'";
+				Statement st = con.createStatement();
+				
+				ResultSet rs = st.executeQuery(queryCheck);
+				
+				char inner_flag = 'q';
+				
+				if(rs.absolute(1)) {
+					System.out.println("Exists");
+					flag = 1;
+				}
+				else {
+					System.out.println("Not exists");
+					flag = 0;
+				}
+				
+				System.out.println("FLAG : " + flag);
+				
+				st = con.createStatement();
+			    String sql2 = "DELETE from students WHERE studentId = '" + id + "'";
+			    System.out.println("SQL IS " + sql2);
+			    st.executeUpdate(sql2);
+				
+				
 				
 			}
 			
@@ -406,6 +452,8 @@ public class Collegedatabase {
 			int opt;
 			System.out.println("1.Teacher sign up");
 			System.out.println("2.Teacher log in");
+			System.out.println("3.Update teacher");
+			System.out.println("4.Delete teacher");
 			opt = sc.nextInt();
 			
 			
@@ -431,7 +479,51 @@ public class Collegedatabase {
 				
 				int i = st.executeUpdate();
 				st.close();
-			}
+				}
+			
+			
+				if(opt == 4) {
+				
+				char exit_acc;
+				//String id = "ramram";
+				System.out.println("Enter teacher id");
+				String id = sc.nextLine();
+				id = sc.nextLine();
+				
+				System.out.println("Enter password");
+				String passw = sc.nextLine();
+				
+				int flag = 0;
+				
+		
+				//int flag = 0;
+				/*Class.forName("com.mysql.jdbc.Driver");
+				Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/sdldatabase","ostechnix","Password123#@!");*/
+				String queryCheck = "SELECT * from teachers WHERE teacherId= '" + id + "'";
+				Statement st = conn.createStatement();
+				
+				ResultSet rs = st.executeQuery(queryCheck);
+				
+				char inner_flag = 'q';
+				
+				if(rs.absolute(1)) {
+					System.out.println("Exists");
+					flag = 1;
+				}
+				else {
+					System.out.println("Not exists");
+					flag = 0;
+				}
+				
+				System.out.println("FLAG : " + flag);
+				
+				st = conn.createStatement();
+			    String sql2 = "DELETE from teachers WHERE teacherId = '" + id + "'";
+			    System.out.println("SQL IS " + sql2);
+			    st.executeUpdate(sql2);
+					
+				}
+				
 			
 			if(opt == 2) {
 				System.out.println("Enter teacher id");
