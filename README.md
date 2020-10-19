@@ -1,7 +1,7 @@
 
 
 -Will include SDL assignments 1-4.
------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------
 
 ASSIGNMENT 1
 
@@ -13,10 +13,21 @@ It is a college management app made using Advanced data structures in Java. Coll
 
 3)Principal: -Sign up. -Has access to all teachers and students data. -Assign a teacher his/her schedule. -Can convey the notice to students,teachers. -Can send private message to a teacher/student.
 
----------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------
 
 ASSIGNMENT 2
 -Use of socket programming. Created a chat box for student and a teacher to chat with each other(2 way communication).
 -Implementation of client-server architecture.
 -Use of serialization and deserialization. Teacher can send the project details to a student.
 -Created chatting option for student and principal.
+
+------------------------------------------------------------------------------------------------------------------------------------------------
+
+ASSIGNMENT 3
+
+-Used JDBC to store the student and teacher data in database instead of storing it into JAVA advance data structures.
+-Provided insert, update and delete options for both students and teachers.
+-Use of multithreading to include multiple client chatting option.
+-In multiple client chat option, provided 2 options
+1)One client can send a message publically whoich is to all other clients and the server.
+2)Can send a message privately to a particular client without letting other clients and server know about the message.
