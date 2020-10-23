@@ -816,19 +816,14 @@ public class Collegedatabase {
 			      portNumber = Integer.valueOf(args[0]).intValue();
 			    }
 
-			    /*
-			     * Open a server socket on the portNumber (default 2222). 
-			     */
+			    
 			    try {
 			      serverSocket = new ServerSocket(portNumber);
 			    } catch (IOException e) {
 			      System.out.println(e);
 			    }
 
-			    /*
-			     * Create a client socket for each connection and pass it to a new client
-			     * thread.
-			     */
+			    
 			    while (true) {
 			      try {
 			        clientSocket = serverSocket.accept();
@@ -853,9 +848,9 @@ public class Collegedatabase {
 			
 			
 			if(user_opt == 5) {
-			    // The default port.
+			    
 			    int portNumber = 2222;
-			    // The default host.
+			    
 			    String host = "localhost";
 
 			    if (args.length < 2) {
@@ -867,9 +862,7 @@ public class Collegedatabase {
 			      portNumber = Integer.valueOf(args[1]).intValue();
 			    }
 
-			    /*
-			     * Open a socket on a given host and port. Open input and output streams.
-			     */
+			    
 			    try {
 			      clientSocket = new Socket(host, portNumber);
 			      inputLine = new BufferedReader(new InputStreamReader(System.in));
@@ -882,21 +875,15 @@ public class Collegedatabase {
 			          + host);
 			    }
 
-			    /*
-			     * If everything has been initialized then we want to write some data to the
-			     * socket we have opened a connection to on the port portNumber.
-			     */
+			    
 			    if (clientSocket != null && os != null && is != null) {
 			      try {
 
-			        /* Create a thread to read from the server. */
-			        //new Thread(new MultiThreadChatClient()).start();
+			        
 			        while (!closed) {
 			          os.println(inputLine.readLine().trim());
 			        }
-			        /*
-			         * Close the output stream, close the input stream, close the socket.
-			         */
+			        
 			        os.close();
 			        is.close();
 			        clientSocket.close();
@@ -912,17 +899,8 @@ public class Collegedatabase {
 			System.out.println();
 		}while(ch !='Y');
 		
-		//Principal p = new Principal();
-		//p = principal_operations(p, teachers, students);
 		
-		System.out.println("Thank you for using the college management app !!");
-		
-		// The server socket.
-		  		  
-
-		    // The default port number.
-		    
-		  
+		System.out.println("Thank you for using the college management app !!");		  
 		
 	}
 }
