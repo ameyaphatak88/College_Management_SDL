@@ -1042,7 +1042,7 @@ class StudentLoginFrame extends JFrame implements ActionListener
 	{	
 		System.out.println("Hey");
 		System.out.println(t1.getText());
-		try {
+		/*try {
 			String t11 = t1.getText();
 			String t22 = t2.getText();
 			String t33 = t3.getText();
@@ -1062,6 +1062,32 @@ class StudentLoginFrame extends JFrame implements ActionListener
 		}
 		catch(Exception e) {
 			System.out.println("aaaaaaa");
+		}*/
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/sdldatabase","ostechnix","Password123#@!");
+			
+			String p1 = t1.getText();
+			String p2 = t2.getText();
+			String p3 = t3.getText();
+			String p4 = t4.getText();
+			String p5 = t5.getText();
+			String p6 = t6.getText();
+			
+			//Statement st=con.createStatement();
+			PreparedStatement st=con.prepareStatement("insert into students values(?,?,?,?,?,?)");
+			st.setString(1,p1);
+			st.setString(2,p2);
+			st.setString(3,p3);
+			st.setString(4,p4);
+			st.setString(5,p5);
+			st.setString(6,p6);
+			
+			int i=st.executeUpdate();
+			st.close();
+		}
+		catch(Exception e){
+			//sqlException.printStackTrace();
 		}
 		
 	}
