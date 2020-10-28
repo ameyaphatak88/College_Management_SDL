@@ -12,6 +12,10 @@ import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+
 import java.io.DataInputStream;
 import java.io.PrintStream;
 import java.io.IOException;
@@ -25,7 +29,6 @@ class Assignment implements Serializable{
 	String lastDate;
 	String marks;
 }
-
 
 
 
@@ -771,15 +774,24 @@ public class Collegedatabase {
 		      System.err.println("IOException:  " + e);
 		    }
 		  }
+	  
+//---------------------------------------------------------------------------------------------------------------------------------------------
+	  
+	  
 		
 	
 //---------------------------------------------------------------------------------------------------------------------------------------------
 	
 	public static void main(String[] args) throws Exception {
 		
-
+		
+		
 		Scanner sc = new Scanner(System.in);
-
+		
+		
+		StudentLoginFrame obj1=new StudentLoginFrame();
+		
+/*
 		ArrayList<Student> students = new ArrayList<Student>();
 		ArrayList<Teacher> teachers = new ArrayList<Teacher>();
 		Principal p = new Principal();
@@ -832,7 +844,11 @@ public class Collegedatabase {
 			          if (threads[i] == null) {
 			            (threads[i] = new clientThread(clientSocket, threads)).start();
 			            break;
-			          }
+			          }// The server socket.
+		  		  
+
+		    // The default port number.
+		    
 			        }
 			        if (i == maxClientsCount) {
 			          PrintStream os = new PrintStream(clientSocket.getOutputStream());
@@ -900,7 +916,153 @@ public class Collegedatabase {
 		}while(ch !='Y');
 		
 		
-		System.out.println("Thank you for using the college management app !!");		  
+		System.out.println("Thank you for using the college management app !!");	*/	  
+		
+	}
+}
+
+class StudentFrame extends JFrame implements ActionListener
+{
+	JButton b1,b2,b3,b4;	
+	
+	  public StudentFrame()
+	   {
+
+	     setLayout(new FlowLayout());
+
+	     b1=new JButton("SignUp");
+	     b2=new JButton("Login");
+	     b3=new JButton("Chat");
+	     b4=new JButton("Exit");
+
+	     add(b1);
+	     add(b2);
+	     add(b3);
+	     add(b4);
+	     
+	     b1.addActionListener(this);
+	     b2.addActionListener(this);
+	     b3.addActionListener(this);
+	     b4.addActionListener(this);
+
+	     setVisible(true);
+	     setSize(350,700);
+
+	     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+	  }
+	  
+	  public void actionPerformed(ActionEvent ae)
+	  {
+		  if(ae.getSource()==b1)
+		  {
+			  StudentLoginFrame obj2 = new StudentLoginFrame();
+		  }
+		  if(ae.getSource()==b2)
+		  {
+			  
+		  }
+		  if(ae.getSource()==b3)
+		  {
+			  
+		  }
+		  if(ae.getSource()==b4)
+		  {
+			  
+		  }
+	  }	  
+}
+
+class StudentLoginFrame extends JFrame implements ActionListener
+{
+	JButton b1;
+	JLabel l1,l2,l3,l4,l5,l6;
+	JTextField t1,t2,t3,t4,t5,t6;
+	
+	public StudentLoginFrame()
+	{	
+		setLayout(new FlowLayout());
+		
+		l1=new JLabel("First Name:");
+		t1=new JTextField(); 
+		t1.setColumns(20);
+		
+		l2=new JLabel("Last Name:");
+		t2=new JTextField(); 
+		t2.setColumns(20);
+		
+		l3=new JLabel("Student ID:");
+		t3=new JTextField(); 
+		t3.setColumns(20);
+		
+		l4=new JLabel("Password:");
+		t4=new JTextField(); 
+		t4.setColumns(20);
+		
+		l5=new JLabel("Year:");
+		t5=new JTextField(); 
+		t5.setColumns(20);
+		
+		l6=new JLabel("Division:");
+		t6=new JTextField(); 
+		t6.setColumns(20);
+		
+		b1 = new JButton("Sign Up");
+		
+		add(l1);
+		add(t1);
+		add(l2);
+		add(t2);
+		add(l3);
+		add(t3);
+		add(l4);
+		add(t4);
+		add(l5);
+		add(t5);
+		add(l6);
+		add(t6);
+		add(b1);
+		
+		
+	    t1.addActionListener(this);
+	    t2.addActionListener(this);
+	    t3.addActionListener(this);
+	    t4.addActionListener(this);
+	    t5.addActionListener(this);
+	    t6.addActionListener(this);
+	    b1.addActionListener(this);
+		
+		
+		setVisible(true);
+		setSize(250,700);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	}
+	
+	public void actionPerformed(ActionEvent ae)
+	{	
+		System.out.println("Hey");
+		System.out.println(t1.getText());
+		try {
+			String t11 = t1.getText();
+			String t22 = t2.getText();
+			String t33 = t3.getText();
+			String t44 = t4.getText();
+			String t55 = t5.getText();
+			String t66 = t6.getText();		
+			
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/sdldatabase","ostechnix","Password123#@!");
+			
+			String query = "insert into students values('" + t11 + "','" + t22 + "','" + t33 + "','" +t44 + "','" +t55 + "','" +t66 + "','" + "')'";
+			
+			Statement st = con.createStatement();
+			int i=st.executeUpdate(query);
+			st.close();
+			System.out.println(i);
+		}
+		catch(Exception e) {
+			System.out.println("aaaaaaa");
+		}
 		
 	}
 }
