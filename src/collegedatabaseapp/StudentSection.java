@@ -29,54 +29,6 @@ public class StudentSection
 	StudentFrame obj = new StudentFrame();
 }
 
-class Abc extends JFrame implements ActionListener
-{
-  JLabel l1;
-  JTextField t1;
-  JLabel l2;
-  JTextField t2;
-  JButton b;
-  JLabel l3;
-
-  public Abc()
-   {
-     setLayout(new FlowLayout());
-
-     l1=new JLabel("First Number:");
-     t1=new JTextField(20); 
-     
-     l2=new JLabel("Second Number:");
-     t2=new JTextField(20);
-     
-     b=new JButton("Add");
-
-     l3=new JLabel("Result");
-     
-     add(l1);
-     add(t1);
-     add(l2);
-     add(t2);
-     add(b);
-     add(l3);
-
-     b.addActionListener(this);
-          
-     setVisible(true);
-     setSize(250,400);
-
-     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-  }
-
- public void actionPerformed(ActionEvent ae)
-  {
-    int num1=Integer.parseInt(t1.getText());
-    int num2=Integer.parseInt(t2.getText());
-  
-    int value=num1+num2;
-    l3.setText(""+value);
-  }
-
-}
 
 class StudentFrame extends JFrame implements ActionListener
 {
@@ -104,6 +56,7 @@ class StudentFrame extends JFrame implements ActionListener
 
 	     setVisible(true);
 	     setSize(350,700);
+	     setTitle("Student Section");
 
 	     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -113,11 +66,11 @@ class StudentFrame extends JFrame implements ActionListener
 	  {
 		  if(ae.getSource()==b1)
 		  {
-			  StudentLoginFrame obj2 = new StudentLoginFrame();
+			  StudentSignUpFrame obj2 = new StudentSignUpFrame();
 		  }
 		  if(ae.getSource()==b2)
 		  {
-			  
+			  StudentLoginFrame obj3 = new StudentLoginFrame();
 		  }
 		  if(ae.getSource()==b3)
 		  {
@@ -130,13 +83,13 @@ class StudentFrame extends JFrame implements ActionListener
 	  }	  
 }
 
-class StudentLoginFrame extends JFrame implements ActionListener
+class StudentSignUpFrame extends JFrame implements ActionListener
 {
 	JButton b1;
 	JLabel l1,l2,l3,l4,l5,l6;
 	JTextField t1,t2,t3,t4,t5,t6;
 	
-	public StudentLoginFrame()
+	public StudentSignUpFrame()
 	{	
 		setLayout(new FlowLayout());
 		
@@ -192,6 +145,7 @@ class StudentLoginFrame extends JFrame implements ActionListener
 		
 		setVisible(true);
 		setSize(250,700);
+		setTitle("Student SignUp Page");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 	
@@ -222,6 +176,152 @@ class StudentLoginFrame extends JFrame implements ActionListener
 		catch(Exception e){
 			
 		}
+		dispose();
+	}
+}
+
+
+class StudentLoginFrame extends JFrame implements ActionListener
+{
+	JButton b1;
+	JLabel l1,l2,l3;
+	JTextField t1,t2,t3;
+	
+	public StudentLoginFrame()
+	{
+		setLayout(new FlowLayout());
+		
+		l1=new JLabel("Enter id:");
+		t1=new JTextField(); 
+		t1.setColumns(20);
+		
+		l2=new JLabel("Enter password");
+		t2=new JTextField(); 
+		t2.setColumns(20);
+		
+		b1 = new JButton("Sign Up");
+		
+		add(l1);
+		add(t1);
+		add(l2);
+		add(t2);
+		add(b1);
+		
+		t1.addActionListener(this);
+		t2.addActionListener(this);
+		b1.addActionListener(this);
+		
+		setVisible(true);
+		setSize(250,700);
+		setTitle("Student Login Page");
+	}
+	
+	public void actionPerformed(ActionEvent ae)
+	{
+		System.out.println("Hey!");
+		try
+		{
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/sdldatabase","ostechnix","Password123#@!");
+			String id,passw;
+			id = t1.getText();
+			passw = t2.getText();
+			
+			String queryCheck = "SELECT * from students WHERE studentId= '" + id + "'";
+			Statement st = con.createStatement();
+			
+			ResultSet rs = st.executeQuery(queryCheck);
+			int flag;
+			
+			char inner_flag = 'q';
+			
+			if(rs.absolute(1)) {
+				System.out.println("Exists");
+				flag = 1;
+			}
+			else {
+				System.out.println("Not exists");
+				flag = 0;
+			}
+			
+			if(flag == 1)
+			{
+				SepStudentFrame ssf = new SepStudentFrame();
+			}
+			else
+			{
+				StudentNotFound snf = new StudentNotFound();
+			}
+		}
+		catch(Exception e)
+		{
+			System.out.println("In catch");
+		}
 		
 	}
 }
+
+class SepStudentFrame extends JFrame
+{
+	JLabel l1;
+	
+	public SepStudentFrame()
+	{
+		setLayout(new FlowLayout());
+		
+		l1=new JLabel("Welcome!");
+		
+		add(l1);
+		
+		setVisible(true);
+		setSize(250,700);
+		setTitle("Student page");
+	}
+}
+
+class StudentNotFound extends JFrame
+{
+	JLabel l1,l2;
+	
+	public StudentNotFound()
+	{
+		setLayout(new FlowLayout());
+		
+		l1=new JLabel("Student not found!");
+		l2=new JLabel("Invalid id or password!");
+		
+		add(l1);
+		add(l2);
+		
+		setVisible(true);
+		setSize(300,100);
+		setTitle("Student Not found");
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
