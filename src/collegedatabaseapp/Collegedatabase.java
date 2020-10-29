@@ -789,7 +789,7 @@ public class Collegedatabase {
 		Scanner sc = new Scanner(System.in);
 		
 		
-		StudentLoginFrame obj1=new StudentLoginFrame();
+		StudentSection obj1=new StudentSection();
 		
 /*
 		ArrayList<Student> students = new ArrayList<Student>();
@@ -921,7 +921,7 @@ public class Collegedatabase {
 	}
 }
 
-class StudentFrame extends JFrame implements ActionListener
+/*class StudentFrame extends JFrame implements ActionListener
 {
 	JButton b1,b2,b3,b4;	
 	
@@ -1039,30 +1039,7 @@ class StudentLoginFrame extends JFrame implements ActionListener
 	}
 	
 	public void actionPerformed(ActionEvent ae)
-	{	
-		System.out.println("Hey");
-		System.out.println(t1.getText());
-		/*try {
-			String t11 = t1.getText();
-			String t22 = t2.getText();
-			String t33 = t3.getText();
-			String t44 = t4.getText();
-			String t55 = t5.getText();
-			String t66 = t6.getText();		
-			
-			Class.forName("com.mysql.jdbc.Driver");
-			Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/sdldatabase","ostechnix","Password123#@!");
-			
-			String query = "insert into students values('" + t11 + "','" + t22 + "','" + t33 + "','" +t44 + "','" +t55 + "','" +t66 + "','" + "')'";
-			
-			Statement st = con.createStatement();
-			int i=st.executeUpdate(query);
-			st.close();
-			System.out.println(i);
-		}
-		catch(Exception e) {
-			System.out.println("aaaaaaa");
-		}*/
+	{
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/sdldatabase","ostechnix","Password123#@!");
@@ -1074,7 +1051,6 @@ class StudentLoginFrame extends JFrame implements ActionListener
 			String p5 = t5.getText();
 			String p6 = t6.getText();
 			
-			//Statement st=con.createStatement();
 			PreparedStatement st=con.prepareStatement("insert into students values(?,?,?,?,?,?)");
 			st.setString(1,p1);
 			st.setString(2,p2);
@@ -1087,11 +1063,11 @@ class StudentLoginFrame extends JFrame implements ActionListener
 			st.close();
 		}
 		catch(Exception e){
-			//sqlException.printStackTrace();
+			sqlException.printStackTrace();
 		}
 		
 	}
-}
+}*/
 
 
 class clientThread extends Thread {
