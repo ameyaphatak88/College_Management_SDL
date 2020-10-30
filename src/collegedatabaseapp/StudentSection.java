@@ -29,6 +29,14 @@ public class StudentSection
 	StudentFrame obj = new StudentFrame();
 }
 
+class STudentC
+{
+	String fname;
+	String lname;
+	String sid;
+	String spassw;
+}
+
 
 class StudentFrame extends JFrame implements ActionListener
 {
@@ -183,8 +191,8 @@ class StudentSignUpFrame extends JFrame implements ActionListener
 
 class StudentLoginFrame extends JFrame implements ActionListener
 {
-	JButton b1;
-	JLabel l1,l2,l3;
+	JButton b1,b4;
+	JLabel l1,l2,l3,l4;
 	JTextField t1,t2,t3;
 	
 	public StudentLoginFrame()
@@ -200,6 +208,7 @@ class StudentLoginFrame extends JFrame implements ActionListener
 		t2.setColumns(20);
 		
 		b1 = new JButton("Sign Up");
+		b4 = new JButton("Receive Assignment");
 		
 		add(l1);
 		add(t1);
@@ -238,19 +247,36 @@ class StudentLoginFrame extends JFrame implements ActionListener
 			if(rs.absolute(1)) {
 				System.out.println("Exists");
 				flag = 1;
+				String delsql = "delete from curr_id_pass";
+				st.executeUpdate(delsql);
+				String insql = "insert into curr_id_pass values('" + id + "','" + passw + "')";
+				st.executeUpdate(insql);
+				String selsql = "select * from curr_id_pass";
+				/*String iddd;
+				String into_var = "select currStudentId into @iddd from curr_id_pass";
+				st.executeUpdate(into_var);
+				System.out.println("id : " + iddd);*/
+				PreparedStatement pst = con.prepareStatement(selsql);
+				ResultSet rsr = pst.executeQuery(selsql);
+				ResultSetMetaData rsmd = rsr.getMetaData();
+				int columnsNumber = rsmd.getColumnCount();
+				/*ArrayList < String > list = new ArrayList < String > ();
+				while (rs.next()) {
+				 list.add(rsr.getString(1));
+				 pst.close();
+				}*/
+				while(rsr.next())
+				{
+					for(int i = 1; i <= columnsNumber; i++)
+					{
+						String columnValue = rsr.getString(i);
+				        System.out.print(columnValue + " " + rsmd.getColumnName(i));
+					}
+				}
 			}
 			else {
 				System.out.println("Not exists");
 				flag = 0;
-			}
-			
-			if(flag == 1)
-			{
-				SepStudentFrame ssf = new SepStudentFrame();
-			}
-			else
-			{
-				StudentNotFound snf = new StudentNotFound();
 			}
 		}
 		catch(Exception e)
@@ -261,22 +287,39 @@ class StudentLoginFrame extends JFrame implements ActionListener
 	}
 }
 
-class SepStudentFrame extends JFrame
+class SepStudentFrame extends JFrame implements ActionListener
 {
 	JLabel l1;
+	JButton b1,b2,b3,b4;
 	
 	public SepStudentFrame()
 	{
 		setLayout(new FlowLayout());
 		
-		l1=new JLabel("Welcome!");
+		l1=new JLabel("Welcome!",SwingConstants.CENTER);
+		b1 = new JButton("Subjects");
+		b2 = new JButton("Marks Distributuion");
+		b3 = new JButton("Chat");
+		b4 = new JButton("Receive Assignment");
 		
 		add(l1);
+		add(b1);
+		add(b2);
+		add(b3);
+		add(b4);
 		
 		setVisible(true);
-		setSize(250,700);
+		setSize(200,700);
 		setTitle("Student page");
+		
+		
 	}
+	
+	public void actionPerformed(ActionEvent ae)
+	{
+		
+	}
+	
 }
 
 class StudentNotFound extends JFrame
