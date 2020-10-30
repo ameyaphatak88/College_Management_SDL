@@ -251,28 +251,8 @@ class StudentLoginFrame extends JFrame implements ActionListener
 				st.executeUpdate(delsql);
 				String insql = "insert into curr_id_pass values('" + id + "','" + passw + "')";
 				st.executeUpdate(insql);
-				String selsql = "select * from curr_id_pass";
-				/*String iddd;
-				String into_var = "select currStudentId into @iddd from curr_id_pass";
-				st.executeUpdate(into_var);
-				System.out.println("id : " + iddd);*/
-				PreparedStatement pst = con.prepareStatement(selsql);
-				ResultSet rsr = pst.executeQuery(selsql);
-				ResultSetMetaData rsmd = rsr.getMetaData();
-				int columnsNumber = rsmd.getColumnCount();
-				/*ArrayList < String > list = new ArrayList < String > ();
-				while (rs.next()) {
-				 list.add(rsr.getString(1));
-				 pst.close();
-				}*/
-				while(rsr.next())
-				{
-					for(int i = 1; i <= columnsNumber; i++)
-					{
-						String columnValue = rsr.getString(i);
-				        System.out.print(columnValue + " " + rsmd.getColumnName(i));
-					}
-				}
+				
+				SepStudentFrame ssf = new SepStudentFrame();
 			}
 			else {
 				System.out.println("Not exists");
@@ -291,6 +271,7 @@ class SepStudentFrame extends JFrame implements ActionListener
 {
 	JLabel l1;
 	JButton b1,b2,b3,b4;
+	String sid,spass,sfname,slname,sdiv,syear;
 	
 	public SepStudentFrame()
 	{
@@ -311,6 +292,40 @@ class SepStudentFrame extends JFrame implements ActionListener
 		setVisible(true);
 		setSize(200,700);
 		setTitle("Student page");
+
+		try
+		{
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/sdldatabase","ostechnix","Password123#@!");
+			
+			String selsql = "select * from curr_student";
+			PreparedStatement pst = con.prepareStatement(selsql);
+			ResultSet rsr = pst.executeQuery(selsql);
+			ResultSetMetaData rsmd = rsr.getMetaData();
+			int columnsNumber = rsmd.getColumnCount();
+			while(rsr.next())
+			{
+				/*for(int i = 1; i <= columnsNumber; i++)
+				{
+					String columnValue = rsr.getString(i);
+			        System.out.print(columnValue + " " + rsmd.getColumnName(i));
+					
+			        
+				}*/
+				sfname = rsr.getString(1);
+				slname = rsr.getString(2);
+				sid = rsr.getString(3);
+				syear = rsr.getString(4);
+				sdiv = rsr.getString(5);
+				spass = rsr.getString(6);
+			}
+			System.out.println(sfname + " " + slname + " " + sid + " " + syear + " " + sdiv + " " + spass);
+			
+		}
+		catch(Exception e)
+		{
+			
+		}
 		
 		
 	}
