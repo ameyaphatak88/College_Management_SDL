@@ -789,7 +789,9 @@ public class Collegedatabase {
 		Scanner sc = new Scanner(System.in);
 		
 		
-		StudentSection obj1=new StudentSection();
+		//StudentSection obj1=new StudentSection();
+		
+		TeacherSection obj2 = new TeacherSection();
 		
 /*
 		ArrayList<Student> students = new ArrayList<Student>();
