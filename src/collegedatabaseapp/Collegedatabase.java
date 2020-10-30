@@ -791,8 +791,11 @@ public class Collegedatabase {
 		
 		//StudentSection obj1=new StudentSection();
 		
-		TeacherSection obj2 = new TeacherSection();
+		//TeacherSection obj2 = new TeacherSection();
 		
+		//PrincipalSection obj3 = new PrincipalSection();
+		
+		MainFrame mf = new MainFrame();
 /*
 		ArrayList<Student> students = new ArrayList<Student>();
 		ArrayList<Teacher> teachers = new ArrayList<Teacher>();
@@ -920,6 +923,53 @@ public class Collegedatabase {
 		
 		System.out.println("Thank you for using the college management app !!");	*/	  
 		
+	}
+}
+
+class MainFrame extends JFrame implements ActionListener
+{
+	JButton b1,b2,b3,b4;
+	JLabel l1;
+	
+	public MainFrame()
+	{
+		setLayout(new FlowLayout());
+		
+		l1 = new JLabel("Welcome to the School Management App!!");
+		
+		b1 = new JButton("Student");
+		b2 = new JButton("Teacher");
+		b3 = new JButton("Principal");
+		
+		add(l1);
+		add(b1);
+		add(b2);
+		add(b3);
+		
+		b1.addActionListener(this);
+	    b2.addActionListener(this);
+	    b3.addActionListener(this);
+	    
+	    setVisible(true);
+	    setSize(350,700);
+
+	    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	}
+	
+	public void actionPerformed(ActionEvent ae)
+	{
+		if(ae.getSource() ==b1)
+		{
+			StudentSection obj1=new StudentSection();
+		}
+		if(ae.getSource() ==b2)
+		{
+			TeacherSection obj2 = new TeacherSection();
+		}
+		if(ae.getSource() ==b3)
+		{
+			PrincipalSection obj3 = new PrincipalSection();
+		}
 	}
 }
 

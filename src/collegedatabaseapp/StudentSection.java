@@ -68,7 +68,7 @@ class StudentFrame extends JFrame implements ActionListener
 	     setSize(350,700);
 	     setTitle("Student Section");
 
-	     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	     //setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 	  }
 	  
@@ -88,7 +88,7 @@ class StudentFrame extends JFrame implements ActionListener
 		  }
 		  if(ae.getSource()==b4)
 		  {
-			  
+			  dispose();
 		  }
 	  }	  
 }
@@ -156,7 +156,7 @@ class StudentSignUpFrame extends JFrame implements ActionListener
 		setVisible(true);
 		setSize(250,700);
 		setTitle("Student SignUp Page");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 	
 	public void actionPerformed(ActionEvent ae)
@@ -314,7 +314,7 @@ class StudentNotFound1 extends JFrame
 		setVisible(true);
 		setSize(250,250);
 		setTitle("Student Not found");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 	}
 }

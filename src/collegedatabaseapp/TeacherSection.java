@@ -29,8 +29,7 @@ import java.util.Vector;
 
 public class TeacherSection
 {
-	DeleteStudentFrame tf = new DeleteStudentFrame();
-	//ShowTableFrame stf = new ShowTableFrame();
+	TeacherFrame tf = new TeacherFrame();
 }
 
 class ShowTableFrame extends JFrame
@@ -43,7 +42,7 @@ class ShowTableFrame extends JFrame
 	{
 		String[] columnNames = {"First Name", "Last Name", "ID", "Year", "Div", "Password"};
 		JFrame frame1 = new JFrame("Database Search Result");
-        frame1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //frame1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame1.setLayout(new BorderLayout());
         
         DefaultTableModel model = new DefaultTableModel();
@@ -128,7 +127,7 @@ class TeacherFrame extends JFrame implements ActionListener
 	     setSize(350,700);
 	     setTitle("Teacher Section");
 
-	     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	     //setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 	  }
 	  
@@ -207,7 +206,7 @@ class TeacherSignUpFrame extends JFrame implements ActionListener
 		setVisible(true);
 		setSize(250,700);
 		setTitle("Teacher SignUp Page");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 	
 	public void actionPerformed(ActionEvent ae)
@@ -416,7 +415,7 @@ class TeacherNotFound1 extends JFrame
 		setVisible(true);
 		setSize(250,250);
 		setTitle("Teacher Not found");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 	}
 }
@@ -435,7 +434,7 @@ class StudentNotFound2 extends JFrame
 		setVisible(true);
 		setSize(250,250);
 		setTitle("Student Not found");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 	}
 }
@@ -454,7 +453,7 @@ class StudentRemoved extends JFrame
 		setVisible(true);
 		setSize(250,250);
 		setTitle("Student removed");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 	}
 }
