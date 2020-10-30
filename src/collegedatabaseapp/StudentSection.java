@@ -288,12 +288,33 @@ class StudentLoginFrame extends JFrame implements ActionListener
 			else {
 				System.out.println("Not exists");
 				flag = 0;
+				
+				StudentNotFound1 snf = new StudentNotFound1();
 			}
 		}
 		catch(Exception e)
 		{
 			System.out.println("In catch");
 		}
+		
+	}
+}
+
+class StudentNotFound1 extends JFrame
+{
+	JLabel l1;
+	
+	public StudentNotFound1()
+	{
+		setLayout(new FlowLayout());
+		
+		l1=new JLabel("Student not found");
+		add(l1);
+		
+		setVisible(true);
+		setSize(250,250);
+		setTitle("Student Not found");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 	}
 }

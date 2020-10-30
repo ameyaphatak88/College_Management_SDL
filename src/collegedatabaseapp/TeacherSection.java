@@ -271,12 +271,33 @@ class TeacherLoginFrame extends JFrame implements ActionListener
 			else {
 				System.out.println("Not exists");
 				flag = 0;
+				
+				TeacherNotFound1 snf = new TeacherNotFound1();
 			}
 		}
 		catch(Exception e)
 		{
 			System.out.println("In catch");
 		}
+		
+	}
+}
+
+class TeacherNotFound1 extends JFrame
+{
+	JLabel l1;
+	
+	public TeacherNotFound1()
+	{
+		setLayout(new FlowLayout());
+		
+		l1=new JLabel("Teacher not found");
+		add(l1);
+		
+		setVisible(true);
+		setSize(250,250);
+		setTitle("Teacher Not found");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 	}
 }
@@ -318,10 +339,10 @@ class SepTeacherFrame extends JFrame implements ActionListener
 		}
 		
 		l1=new JLabel("Welcome " + sfname + " " + slname);
-		b1 = new JButton("Subjects");
-		b2 = new JButton("Marks Distributuion");
+		b1 = new JButton("View Students");
+		b2 = new JButton("View your timetable");
 		b3 = new JButton("Chat");
-		b4 = new JButton("Receive Assignment");
+		b4 = new JButton("Send Assignment");
 		
 		add(l1);
 		add(b1);
