@@ -22,6 +22,8 @@ import java.io.IOException;
 import java.net.Socket;
 import java.net.ServerSocket;
 
+import javax.swing.tree.DefaultMutableTreeNode;  
+
 
 
 public class StudentSection
@@ -274,7 +276,6 @@ class StudentLoginFrame extends JFrame implements ActionListener
 				String insql1 = "insert into curr_student values('" + sfname + "','" + slname + "','" + sid + "','" + syear + "','" + sdiv + "','" + spass + "')";
 				st.executeUpdate(insql1);
 				
-				//System.out.println(sfname + " " + slname + " " + sid + " " + syear + " " + sdiv + " " + spass);
 				
 				
 				String delsql = "delete from curr_id_pass";
@@ -306,22 +307,6 @@ class SepStudentFrame extends JFrame implements ActionListener
 	public SepStudentFrame()
 	{
 		setLayout(new FlowLayout());
-		
-		l1=new JLabel("Welcome!",SwingConstants.CENTER);
-		b1 = new JButton("Subjects");
-		b2 = new JButton("Marks Distributuion");
-		b3 = new JButton("Chat");
-		b4 = new JButton("Receive Assignment");
-		
-		add(l1);
-		add(b1);
-		add(b2);
-		add(b3);
-		add(b4);
-		
-		setVisible(true);
-		setSize(200,700);
-		setTitle("Student page");
 
 		try
 		{
@@ -357,14 +342,174 @@ class SepStudentFrame extends JFrame implements ActionListener
 			
 		}
 		
+		l1=new JLabel("Welcome " + sfname + " " + slname);
+		b1 = new JButton("Subjects");
+		b2 = new JButton("Marks Distributuion");
+		b3 = new JButton("Chat");
+		b4 = new JButton("Receive Assignment");
+		
+		add(l1);
+		add(b1);
+		add(b2);
+		add(b3);
+		add(b4);
+		
+		b1.addActionListener(this);
+		b2.addActionListener(this);
+		b3.addActionListener(this);
+		b4.addActionListener(this);
+		
+		setVisible(true);
+		setSize(200,700);
+		setTitle("Student page");
+		
 		
 	}
 	
 	public void actionPerformed(ActionEvent ae)
 	{
+		if(ae.getSource()==b1)
+		{
+			Subjects sbj = new Subjects();
+		}
 		
+		if(ae.getSource()==b2)
+		{
+			MarksDis mds = new MarksDis();
+		}
 	}
 	
+}
+
+class Subjects extends JFrame
+{
+	JFrame f;
+	public Subjects()
+	{
+		f = new JFrame();
+	    DefaultMutableTreeNode branch=new DefaultMutableTreeNode("Computer Engineering");
+	    DefaultMutableTreeNode fe=new DefaultMutableTreeNode("FE");
+	    DefaultMutableTreeNode se=new DefaultMutableTreeNode("SE"); 
+	    DefaultMutableTreeNode te=new DefaultMutableTreeNode("TE");
+	    DefaultMutableTreeNode be=new DefaultMutableTreeNode("BE");
+	    
+	    branch.add(fe);
+	    branch.add(se);
+	    branch.add(te);
+	    branch.add(be);
+	    
+	    DefaultMutableTreeNode s11=new DefaultMutableTreeNode("BXE");  
+	    DefaultMutableTreeNode s12=new DefaultMutableTreeNode("CIVIL");  
+	    DefaultMutableTreeNode s13=new DefaultMutableTreeNode("MATHS");  
+	    DefaultMutableTreeNode s14=new DefaultMutableTreeNode("PHYSICS"); 
+	    DefaultMutableTreeNode s15=new DefaultMutableTreeNode("GRAPHICS");
+	    
+	    fe.add(s11);
+	    fe.add(s12);
+	    fe.add(s13);
+	    fe.add(s14);
+	    fe.add(s15);
+	    
+	    DefaultMutableTreeNode s21=new DefaultMutableTreeNode("OOP");  
+	    DefaultMutableTreeNode s22=new DefaultMutableTreeNode("DSA");  
+	    DefaultMutableTreeNode s23=new DefaultMutableTreeNode("DELD");  
+	    DefaultMutableTreeNode s24=new DefaultMutableTreeNode("CGL"); 
+	    DefaultMutableTreeNode s25=new DefaultMutableTreeNode("COA");
+	    
+	    se.add(s21);
+	    se.add(s22);
+	    se.add(s23);
+	    se.add(s24);
+	    se.add(s25);
+	    
+	    DefaultMutableTreeNode s31=new DefaultMutableTreeNode("DBMS");  
+	    DefaultMutableTreeNode s32=new DefaultMutableTreeNode("SDL");  
+	    DefaultMutableTreeNode s33=new DefaultMutableTreeNode("CNL");  
+	    DefaultMutableTreeNode s34=new DefaultMutableTreeNode("TOC"); 
+	    DefaultMutableTreeNode s35=new DefaultMutableTreeNode("ISEE");
+	    
+	    te.add(s31);
+	    te.add(s32);
+	    te.add(s33);
+	    te.add(s34);
+	    te.add(s35);
+	    
+	    DefaultMutableTreeNode s41=new DefaultMutableTreeNode("WEB DEV");  
+	    DefaultMutableTreeNode s42=new DefaultMutableTreeNode("ML");  
+	    DefaultMutableTreeNode s43=new DefaultMutableTreeNode("COMPUTER VISION");  
+	    DefaultMutableTreeNode s44=new DefaultMutableTreeNode("DATA SCIENCE"); 
+	    DefaultMutableTreeNode s45=new DefaultMutableTreeNode("PROJECT");
+	    
+	    be.add(s41);
+	    be.add(s42);
+	    be.add(s43);
+	    be.add(s44);
+	    be.add(s45);
+	    
+	    JTree jt=new JTree(branch);  
+	    f.add(jt);  
+	    f.setSize(200,400);  
+	    f.setVisible(true);  
+	    
+	}
+}
+
+class MarksDis extends JFrame
+{
+	JFrame f;
+	
+	public MarksDis()
+	{
+		f = new JFrame();
+	    DefaultMutableTreeNode branch=new DefaultMutableTreeNode("Computer Engineering");
+	    DefaultMutableTreeNode fe=new DefaultMutableTreeNode("FE");
+	    DefaultMutableTreeNode se=new DefaultMutableTreeNode("SE"); 
+	    DefaultMutableTreeNode te=new DefaultMutableTreeNode("TE");
+	    DefaultMutableTreeNode be=new DefaultMutableTreeNode("BE");
+	    
+	    branch.add(fe);
+	    branch.add(se);
+	    branch.add(te);
+	    branch.add(be);
+	    
+	    DefaultMutableTreeNode s11=new DefaultMutableTreeNode("Online : 50");  
+	    DefaultMutableTreeNode s12=new DefaultMutableTreeNode("Theory : 50");  
+	    DefaultMutableTreeNode s13=new DefaultMutableTreeNode("TW : 25");  
+	    
+	    fe.add(s11);
+	    fe.add(s12);
+	    fe.add(s13);
+	    
+	    DefaultMutableTreeNode s21=new DefaultMutableTreeNode("Online : 50");  
+	    DefaultMutableTreeNode s22=new DefaultMutableTreeNode("Theory : 50");  
+	    DefaultMutableTreeNode s23=new DefaultMutableTreeNode("Practicals : 50");
+	    DefaultMutableTreeNode s24=new DefaultMutableTreeNode("TW : 25");
+	    
+	    se.add(s21);
+	    se.add(s22);
+	    se.add(s23);
+	    se.add(s23);
+	    
+	    DefaultMutableTreeNode s31=new DefaultMutableTreeNode("Insem : 50");  
+	    DefaultMutableTreeNode s32=new DefaultMutableTreeNode("Endsem : 50");  
+	    DefaultMutableTreeNode s33=new DefaultMutableTreeNode("TW : 25");  
+	    
+	    te.add(s31);
+	    te.add(s32);
+	    te.add(s33);
+	    
+	    DefaultMutableTreeNode s41=new DefaultMutableTreeNode("Project : 50");  
+	    DefaultMutableTreeNode s42=new DefaultMutableTreeNode("Theory : 50");    
+	    
+	    be.add(s41);
+	    be.add(s42);
+	    
+	    JTree jt=new JTree(branch);  
+	    f.add(jt);  
+	    f.setSize(200,400);  
+	    f.setVisible(true);
+	    
+	}
 }
 
 class StudentNotFound extends JFrame
