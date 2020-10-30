@@ -194,6 +194,7 @@ class StudentLoginFrame extends JFrame implements ActionListener
 	JButton b1,b4;
 	JLabel l1,l2,l3,l4;
 	JTextField t1,t2,t3;
+	String sid,spass,sfname,slname,sdiv,syear;
 	
 	public StudentLoginFrame()
 	{
@@ -242,11 +243,40 @@ class StudentLoginFrame extends JFrame implements ActionListener
 			ResultSet rs = st.executeQuery(queryCheck);
 			int flag;
 			
+			//-----------------------------------------
+			
+			
+			//----------------------
+			
 			char inner_flag = 'q';
 			
 			if(rs.absolute(1)) {
 				System.out.println("Exists");
 				flag = 1;
+				
+				String selsql = "select * from students where studentId = '" + id + "'";
+				PreparedStatement pst = con.prepareStatement(selsql);
+				ResultSet rsr = pst.executeQuery(selsql);
+				ResultSetMetaData rsmd = rsr.getMetaData();
+				int columnsNumber = rsmd.getColumnCount();
+				while(rsr.next())
+				{
+					sfname = rsr.getString(1);
+					slname = rsr.getString(2);
+					sid = rsr.getString(3);
+					syear = rsr.getString(4);
+					sdiv = rsr.getString(5);
+					spass = rsr.getString(6);
+				}
+				String delsql1 = "delete from curr_student";
+				st.executeUpdate(delsql1);
+				
+				String insql1 = "insert into curr_student values('" + sfname + "','" + slname + "','" + sid + "','" + syear + "','" + sdiv + "','" + spass + "')";
+				st.executeUpdate(insql1);
+				
+				//System.out.println(sfname + " " + slname + " " + sid + " " + syear + " " + sdiv + " " + spass);
+				
+				
 				String delsql = "delete from curr_id_pass";
 				st.executeUpdate(delsql);
 				String insql = "insert into curr_id_pass values('" + id + "','" + passw + "')";
