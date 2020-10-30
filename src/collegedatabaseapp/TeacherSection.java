@@ -24,9 +24,83 @@ import java.net.ServerSocket;
 
 import javax.swing.tree.DefaultMutableTreeNode;  
 
+import javax.swing.table.DefaultTableModel;
+import java.util.Vector;
+
 public class TeacherSection
 {
-	TeacherFrame tf = new TeacherFrame();
+	//TeacherFrame tf = new TeacherFrame();
+	ShowTableFrame stf = new ShowTableFrame();
+}
+
+class ShowTableFrame extends JFrame
+{ 
+	Statement st;
+	PreparedStatement pst;
+	ResultSet rs;
+	
+	public ShowTableFrame()
+	{
+		String[] columnNames = {"First Name", "Last Name", "ID", "Year", "Div", "Password"};
+		JFrame frame1 = new JFrame("Database Search Result");
+        frame1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame1.setLayout(new BorderLayout());
+        
+        DefaultTableModel model = new DefaultTableModel();
+        model.setColumnIdentifiers(columnNames);
+        
+        JTable table = new JTable();
+        table.setModel(model);
+        table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+        table.setFillsViewportHeight(true);
+        JScrollPane scroll = new JScrollPane(table);
+        
+        scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        
+        //from = (String) c1.getSelectedItem();
+        		
+        String fname = "";
+        String lname = "";
+        String sid = "";
+        String syear = "";
+        String sdiv = "";
+        String spass = "";
+        
+        try
+        {
+        	Class.forName("com.mysql.jdbc.Driver");
+			Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/sdldatabase","ostechnix","Password123#@!");
+			
+			 pst = con.prepareStatement("select * from students");
+			 rs = pst.executeQuery();
+	         
+			 int i = 0;
+
+	         while (rs.next()) {
+	                fname = rs.getString("firstName");
+	                lname = rs.getString("lastName");
+	                sid = rs.getString("studentId");
+	                syear = rs.getString("year");
+	                sdiv = rs.getString("division");
+	                spass = rs.getString("studentPass");
+	                
+	                model.addRow(new Object[]{fname, lname, sid, syear, sdiv, spass});
+	                i++;
+	            }
+	         
+        }
+        catch(Exception e)
+        {
+        	
+        }
+        
+        frame1.add(scroll);
+
+        frame1.setVisible(true);
+
+        frame1.setSize(700, 500);
+	}
 }
 
 class TeacherFrame extends JFrame implements ActionListener
