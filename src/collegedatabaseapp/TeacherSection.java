@@ -29,8 +29,8 @@ import java.util.Vector;
 
 public class TeacherSection
 {
-	//TeacherFrame tf = new TeacherFrame();
-	ShowTableFrame stf = new ShowTableFrame();
+	DeleteStudentFrame tf = new DeleteStudentFrame();
+	//ShowTableFrame stf = new ShowTableFrame();
 }
 
 class ShowTableFrame extends JFrame
@@ -144,11 +144,7 @@ class TeacherFrame extends JFrame implements ActionListener
 		  }
 		  if(ae.getSource()==b3)
 		  {
-			  
-		  }
-		  if(ae.getSource()==b4)
-		  {
-			  
+			  dispose();
 		  }
 	  }	  
 }
@@ -357,6 +353,55 @@ class TeacherLoginFrame extends JFrame implements ActionListener
 	}
 }
 
+class DeleteStudentFrame extends JFrame implements ActionListener
+{
+	JLabel l1,l2;
+	JTextField t1;
+	JButton b1;
+	
+	public DeleteStudentFrame()
+	{
+		setLayout(new FlowLayout());
+		
+		l1=new JLabel("Enter id of the student to be deleted");
+		t1=new JTextField(); 
+		t1.setColumns(20);
+		
+		b1 = new JButton("Remove");
+		
+		add(l1);
+		add(t1);
+		add(b1);
+		
+		t1.addActionListener(this);
+		b1.addActionListener(this);
+		
+		setVisible(true);
+		setSize(250,700);
+		
+	}
+	
+	public void actionPerformed(ActionEvent ae)
+	{	
+		try
+		{
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/sdldatabase","ostechnix","Password123#@!");
+			String id = t1.getText();
+			String query = "delete from students where studentId = '" + id + "'";
+			Statement st = con.createStatement();
+			st.executeUpdate(query);
+			
+			StudentRemoved sr = new StudentRemoved();
+		}
+		catch(Exception e)
+		{
+			System.out.println("In catch!");
+		}
+	}
+	
+}
+
 class TeacherNotFound1 extends JFrame
 {
 	JLabel l1;
@@ -371,6 +416,44 @@ class TeacherNotFound1 extends JFrame
 		setVisible(true);
 		setSize(250,250);
 		setTitle("Teacher Not found");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+	}
+}
+
+class StudentNotFound2 extends JFrame
+{
+	JLabel l1;
+	
+	public StudentNotFound2()
+	{
+		setLayout(new FlowLayout());
+		
+		l1=new JLabel("Student not found");
+		add(l1);
+		
+		setVisible(true);
+		setSize(250,250);
+		setTitle("Student Not found");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+	}
+}
+
+class StudentRemoved extends JFrame
+{
+	JLabel l1;
+	
+	public StudentRemoved()
+	{
+		setLayout(new FlowLayout());
+		
+		l1=new JLabel("Student removed if present");
+		add(l1);
+		
+		setVisible(true);
+		setSize(250,250);
+		setTitle("Student removed");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 	}
@@ -438,12 +521,12 @@ class SepTeacherFrame extends JFrame implements ActionListener
 	
 	public void actionPerformed(ActionEvent ae)
 	{
-		/*if(ae.getSource()==b1)
+		if(ae.getSource()==b1)
 		{
-			Subjects sbj = new Subjects();
+			ShowTableFrame stf = new ShowTableFrame();
 		}
 		
-		if(ae.getSource()==b2)
+		/*if(ae.getSource()==b2)
 		{
 			MarksDis mds = new MarksDis();
 		}*/
