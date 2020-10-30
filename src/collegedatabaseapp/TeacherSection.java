@@ -40,24 +40,15 @@ class TeacherFrame extends JFrame implements ActionListener
 
 	     b1=new JButton("SignUp");
 	     b2=new JButton("Login");
-	     b3=new JButton("Chat");
-	     b4=new JButton("View all the students");
-	     b5=new JButton("Send assignments");
-	     b6=new JButton("Exit");
+	     b3=new JButton("Exit");
 
 	     add(b1);
 	     add(b2);
-	     add(b3);
-	     add(b4);
-	     add(b5);
-	     add(b6);
+	     add(b3);     
 	     
 	     b1.addActionListener(this);
 	     b2.addActionListener(this);
 	     b3.addActionListener(this);
-	     b4.addActionListener(this);
-	     b5.addActionListener(this);
-	     b6.addActionListener(this);
 
 	     setVisible(true);
 	     setSize(350,700);
@@ -75,7 +66,7 @@ class TeacherFrame extends JFrame implements ActionListener
 		  }
 		  if(ae.getSource()==b2)
 		  {
-			  //StudentLoginFrame obj3 = new StudentLoginFrame();
+			  TeacherLoginFrame obj3 = new TeacherLoginFrame();
 		  }
 		  if(ae.getSource()==b3)
 		  {
@@ -177,6 +168,192 @@ class TeacherSignUpFrame extends JFrame implements ActionListener
 		}
 		dispose();
 	}
+}
+
+
+
+//-------------------------------------------------------------------------------------------------------
+class TeacherLoginFrame extends JFrame implements ActionListener
+{
+	JButton b1,b4;
+	JLabel l1,l2,l3,l4;
+	JTextField t1,t2,t3;
+	String sid,spass,sfname,slname,sdiv;
+	
+	public TeacherLoginFrame()
+	{
+		setLayout(new FlowLayout());
+		
+		l1=new JLabel("Enter id:");
+		t1=new JTextField(); 
+		t1.setColumns(20);
+		
+		l2=new JLabel("Enter password");
+		t2=new JTextField(); 
+		t2.setColumns(20);
+		
+		b1 = new JButton("Sign Up");
+		b4 = new JButton("Receive Assignment");
+		
+		add(l1);
+		add(t1);
+		add(l2);
+		add(t2);
+		add(b1);
+		
+		t1.addActionListener(this);
+		t2.addActionListener(this);
+		b1.addActionListener(this);
+		
+		setVisible(true);
+		setSize(250,700);
+		setTitle("Teacher Login Page");
+	}
+	
+	public void actionPerformed(ActionEvent ae)
+	{
+		System.out.println("Hey!");
+		try
+		{
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/sdldatabase","ostechnix","Password123#@!");
+			String id,passw;
+			id = t1.getText();
+			passw = t2.getText();
+			
+			String queryCheck = "SELECT * from teachers WHERE teacherId= '" + id + "'";
+			Statement st = con.createStatement();
+			
+			ResultSet rs = st.executeQuery(queryCheck);
+			int flag;
+			
+			//-----------------------------------------
+			
+			
+			//----------------------
+			
+			char inner_flag = 'q';
+			
+			if(rs.absolute(1)) {
+				System.out.println("Exists");
+				flag = 1;
+				
+				String selsql = "select * from teachers where teacherId = '" + id + "'";
+				PreparedStatement pst = con.prepareStatement(selsql);
+				ResultSet rsr = pst.executeQuery(selsql);
+				ResultSetMetaData rsmd = rsr.getMetaData();
+				int columnsNumber = rsmd.getColumnCount();
+				while(rsr.next())
+				{
+					sfname = rsr.getString(1);
+					slname = rsr.getString(2);
+					sid = rsr.getString(3);
+					spass = rsr.getString(4);
+					sdiv = rsr.getString(5);
+					
+				}
+				String delsql1 = "delete from curr_teacher";
+				st.executeUpdate(delsql1);
+				
+				/*String insql1 = "insert into curr_teacher values('" + sfname + "','" + slname + "','" + sid + "','" + spass + "','" + sdiv + "')";
+				st.executeUpdate(insql1);*/
+				
+				
+				String insql = "insert into curr_teacher values('" + sfname + "','" + slname + "','" + sid + "','" + spass + "','" + sdiv + "')";
+				st.executeUpdate(insql);
+				
+				
+				
+				
+				
+				SepTeacherFrame ssf = new SepTeacherFrame();
+			}
+			else {
+				System.out.println("Not exists");
+				flag = 0;
+			}
+		}
+		catch(Exception e)
+		{
+			System.out.println("In catch");
+		}
+		
+	}
+}
+
+class SepTeacherFrame extends JFrame implements ActionListener
+{
+	JLabel l1;
+	JButton b1,b2,b3,b4;
+	String sid,spass,sfname,slname,sdiv;
+	
+	public SepTeacherFrame()
+	{
+		setLayout(new FlowLayout());
+
+		try
+		{
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/sdldatabase","ostechnix","Password123#@!");
+			
+			String selsql = "select * from curr_teacher";
+			PreparedStatement pst = con.prepareStatement(selsql);
+			ResultSet rsr = pst.executeQuery(selsql);
+			ResultSetMetaData rsmd = rsr.getMetaData();
+			int columnsNumber = rsmd.getColumnCount();
+			while(rsr.next())
+			{
+				sfname = rsr.getString(1);
+				slname = rsr.getString(2);
+				sid = rsr.getString(3);
+				spass = rsr.getString(4);
+				sdiv = rsr.getString(5);
+			}
+			System.out.println(sfname + " " + slname + " " + sid + " " + spass + " " + sdiv);
+			
+		}
+		catch(Exception e)
+		{
+			
+		}
+		
+		l1=new JLabel("Welcome " + sfname + " " + slname);
+		b1 = new JButton("Subjects");
+		b2 = new JButton("Marks Distributuion");
+		b3 = new JButton("Chat");
+		b4 = new JButton("Receive Assignment");
+		
+		add(l1);
+		add(b1);
+		add(b2);
+		add(b3);
+		add(b4);
+		
+		b1.addActionListener(this);
+		b2.addActionListener(this);
+		b3.addActionListener(this);
+		b4.addActionListener(this);
+		
+		setVisible(true);
+		setSize(200,700);
+		setTitle("Student page");
+		
+		
+	}
+	
+	public void actionPerformed(ActionEvent ae)
+	{
+		/*if(ae.getSource()==b1)
+		{
+			Subjects sbj = new Subjects();
+		}
+		
+		if(ae.getSource()==b2)
+		{
+			MarksDis mds = new MarksDis();
+		}*/
+	}
+	
 }
 
 
