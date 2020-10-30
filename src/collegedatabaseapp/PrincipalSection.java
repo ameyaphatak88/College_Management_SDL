@@ -65,7 +65,7 @@ class PrincipalFrame extends JFrame implements ActionListener
 	    setVisible(true);
 		setSize(250,700);
 		setTitle("Principal Login");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	    
+		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	    
 		
 	}
 	
@@ -109,7 +109,7 @@ class WrongCred extends JFrame
 class CorrCred extends JFrame implements ActionListener
 {
 	JLabel l1;
-	JButton b1,b2,b3,b4;
+	JButton b1,b2,b3,b4,b5,b6;
 	
 	public CorrCred()
 	{
@@ -119,19 +119,25 @@ class CorrCred extends JFrame implements ActionListener
 		
 		b1 = new JButton("View all students");
 		b2 = new JButton("View all teachers");
-		b3 = new JButton("Assign timetable");
-		b4 = new JButton("Exit");
+		b3 = new JButton("View timetable");
+		b4 = new JButton("Remove student");
+		b5 = new JButton("Remove teacher");
+		b6 = new JButton("Exit");
 		
 		add(l1);
 		add(b1);
 		add(b2);
 		add(b3);
 		add(b4);
+		add(b5);
+		add(b6);
 		
 		b1.addActionListener(this);
 	    b2.addActionListener(this);
 	    b3.addActionListener(this);
 	    b4.addActionListener(this);
+	    b5.addActionListener(this);
+	    b6.addActionListener(this);
 		
 		setVisible(true);
 		setSize(250,700);
@@ -154,10 +160,144 @@ class CorrCred extends JFrame implements ActionListener
 		}
 		if(ae.getSource()==b4)
 		{
+			DeleteStudentFrame2 ds = new DeleteStudentFrame2();
+		}
+		if(ae.getSource()==b5)
+		{
+			DeleteTeacherFrame2 dt = new DeleteTeacherFrame2();
+		}
+		if(ae.getSource()==b6)
+		{
 			dispose();
 		}
 	}
 }
+
+
+class DeleteStudentFrame2 extends JFrame implements ActionListener
+{
+	JLabel l1,l2;
+	JTextField t1;
+	JButton b1;
+	
+	public DeleteStudentFrame2()
+	{
+		setLayout(new FlowLayout());
+		
+		l1=new JLabel("Enter id of the student to be deleted");
+		t1=new JTextField(); 
+		t1.setColumns(20);
+		
+		b1 = new JButton("Remove");
+		
+		add(l1);
+		add(t1);
+		add(b1);
+		
+		t1.addActionListener(this);
+		b1.addActionListener(this);
+		
+		setVisible(true);
+		setSize(250,700);
+		
+	}
+	
+	public void actionPerformed(ActionEvent ae)
+	{	
+		try
+		{
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/sdldatabase","ostechnix","Password123#@!");
+			String id = t1.getText();
+			String query = "delete from students where studentId = '" + id + "'";
+			Statement st = con.createStatement();
+			st.executeUpdate(query);
+			
+			StudentRemoved sr = new StudentRemoved();
+		}
+		catch(Exception e)
+		{
+			System.out.println("In catch!");
+		}
+	}
+	
+}
+
+//--------------------------------------------------------
+
+
+
+class DeleteTeacherFrame2 extends JFrame implements ActionListener
+{
+	JLabel l1,l2;
+	JTextField t1;
+	JButton b1;
+	
+	public DeleteTeacherFrame2()
+	{
+		setLayout(new FlowLayout());
+		
+		l1=new JLabel("Enter id of the teacher to be deleted");
+		t1=new JTextField(); 
+		t1.setColumns(20);
+		
+		b1 = new JButton("Remove");
+		
+		add(l1);
+		add(t1);
+		add(b1);
+		
+		t1.addActionListener(this);
+		b1.addActionListener(this);
+		
+		setVisible(true);
+		setSize(250,700);
+		
+	}
+	
+	public void actionPerformed(ActionEvent ae)
+	{	
+		try
+		{
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/sdldatabase","ostechnix","Password123#@!");
+			String id = t1.getText();
+			String query = "delete from teachers where teacherId = '" + id + "'";
+			Statement st = con.createStatement();
+			st.executeUpdate(query);
+			
+			TeacherRemoved sr = new TeacherRemoved();
+		}
+		catch(Exception e)
+		{
+			System.out.println("In catch!");
+		}
+	}
+	
+}
+
+class TeacherRemoved extends JFrame
+{
+	JLabel l1;
+	
+	public TeacherRemoved()
+	{
+		setLayout(new FlowLayout());
+		
+		l1=new JLabel("Teacher removed if present");
+		add(l1);
+		
+		setVisible(true);
+		setSize(250,250);
+		setTitle("Teacher removed");
+		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+	}
+}
+
+
+
+//-------------------------------------------
 
 class ShowTableFrame2 extends JFrame
 { 
@@ -169,7 +309,7 @@ class ShowTableFrame2 extends JFrame
 	{
 		String[] columnNames = {"First Name", "Last Name", "ID", "Year", "Div", "Password"};
 		JFrame frame1 = new JFrame("Database Search Result");
-        frame1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //frame1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame1.setLayout(new BorderLayout());
         
         DefaultTableModel model = new DefaultTableModel();
