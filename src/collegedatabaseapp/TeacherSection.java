@@ -115,16 +115,19 @@ class TeacherFrame extends JFrame implements ActionListener
 	     b2=new JButton("Login");
 	     b3=new JButton("Exit");
 	     b4=new JButton("Remove student");
+	    // b5 = new JButton("Show students");
 
 	     add(b1);
 	     add(b2);
 	     add(b3);    
 	     add(b4);
+	     //add(b5);
 	     
 	     b1.addActionListener(this);
 	     b2.addActionListener(this);
 	     b3.addActionListener(this);
 	     b4.addActionListener(this);
+	     //b5.addActionListener(this);
 
 	     setVisible(true);
 	     setSize(350,700);
@@ -468,7 +471,7 @@ class StudentRemoved extends JFrame
 class SepTeacherFrame extends JFrame implements ActionListener
 {
 	JLabel l1;
-	JButton b1,b2,b3,b4;
+	JButton b1,b2,b3,b4,b5,b6;
 	String sid,spass,sfname,slname,sdiv;
 	
 	public SepTeacherFrame()
@@ -506,17 +509,23 @@ class SepTeacherFrame extends JFrame implements ActionListener
 		b2 = new JButton("View your timetable");
 		b3 = new JButton("Chat");
 		b4 = new JButton("Send Assignment");
+		b5 = new JButton("Remove student");
+		//b6 = new JButton("View students");
 		
 		add(l1);
 		add(b1);
 		add(b2);
 		add(b3);
 		add(b4);
+		add(b5);
+		//add(b6);
 		
 		b1.addActionListener(this);
 		b2.addActionListener(this);
 		b3.addActionListener(this);
 		b4.addActionListener(this);
+		b5.addActionListener(this);
+		//b6.addActionListener(this);
 		
 		setVisible(true);
 		setSize(200,700);
@@ -530,6 +539,10 @@ class SepTeacherFrame extends JFrame implements ActionListener
 		if(ae.getSource()==b1)
 		{
 			ShowTableFrame stf = new ShowTableFrame();
+		}
+		if(ae.getSource()==b5)
+		{
+			DeleteStudentFrame dsf = new DeleteStudentFrame();
 		}
 		
 		/*if(ae.getSource()==b2)
