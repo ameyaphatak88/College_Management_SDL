@@ -114,14 +114,17 @@ class TeacherFrame extends JFrame implements ActionListener
 	     b1=new JButton("SignUp");
 	     b2=new JButton("Login");
 	     b3=new JButton("Exit");
+	     b4=new JButton("Remove student");
 
 	     add(b1);
 	     add(b2);
-	     add(b3);     
+	     add(b3);    
+	     add(b4);
 	     
 	     b1.addActionListener(this);
 	     b2.addActionListener(this);
 	     b3.addActionListener(this);
+	     b4.addActionListener(this);
 
 	     setVisible(true);
 	     setSize(350,700);
@@ -144,6 +147,10 @@ class TeacherFrame extends JFrame implements ActionListener
 		  if(ae.getSource()==b3)
 		  {
 			  dispose();
+		  }
+		  if(ae.getSource()==b4)
+		  {
+			  DeleteStudentFrame dsf =new  DeleteStudentFrame();
 		  }
 	  }	  
 }
