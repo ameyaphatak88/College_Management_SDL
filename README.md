@@ -31,3 +31,8 @@ ASSIGNMENT 3
 -In multiple client chat option, provided 2 options
 1)One client can send a message publically whoich is to all other clients and the server.
 2)Can send a message privately to a particular client without letting other clients and server know about the message.
+
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+ASSIGNMENT 4
+-Enhance the College Management System eith Swing GUI.
